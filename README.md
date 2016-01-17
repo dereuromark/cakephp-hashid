@@ -68,6 +68,20 @@ public function view($hashid = null) {
 
 Et voila. Easy and without overhead.
 
+## Manual usage
+Of course you can also encode and decode manually:
+```php
+// 1 => 'jR'
+$hashid = $this->Users->encodeId($id);
+
+// 'jR' => 1
+$id = $this->Users->decodeHashid($hashid);
+
+// Or if you got an entity
+$this->Users->encode($user);
+$hashid = $user->hashid;
+```
+
 ## Additional configuration
 You can provide global configs via Configure and your own `app.php`:
 ```php

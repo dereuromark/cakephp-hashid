@@ -8,6 +8,8 @@ use Hashids\Hashids;
 
 class HashidBehaviorTest extends TestCase {
 
+	public $dropTables = true;
+
 	/**
 	 * @var array
 	 */

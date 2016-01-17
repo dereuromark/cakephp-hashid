@@ -64,11 +64,16 @@ class HashidBehavior extends Behavior {
 
 		$idField = $this->_table->primaryKey();
 
-		$mapper = function ($row, $key, $mr) use ($field, $idField) {
-			$row->set($field, $this->encodeId($row->get($idField)));
-			$mr->emit($row);
-		};
-		$query->mapReduce($mapper);
+		$query->formatResults(function (\Cake\Datasource\ResultSetInterface $results) use ($field, $idField) {
+			return $results->map(function ($row) use ($field, $idField) {
+				if (!empty($row[$field]) || empty($row[$idField])) {
+					return $row;
+				}
+
+				$row[$field] = $this->encodeId($row[$idField]);
+				return $row;
+			});
+		});
 	}
 
 	/**

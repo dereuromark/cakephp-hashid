@@ -176,4 +176,34 @@ class HashidBehaviorTest extends TestCase {
 		$this->Addresses->find('hashed', [HashidBehavior::HID => 'jRx'])->firstOrFail();
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testFindHashedWithFieldFirst() {
+		$this->Addresses->behaviors()->Hashid->config('field', 'hash');
+		$this->Addresses->behaviors()->Hashid->config('first', true);
+
+		$hashid = 'k5';
+		$address = $this->Addresses->find('hashed', [HashidBehavior::HID => $hashid]);
+		$this->assertSame(2, $address->id);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testEncode() {
+		$this->Addresses->behaviors()->Hashid->config('field', 'hid');
+
+		$address = $this->Addresses->newEntity();
+		$this->Addresses->encode($address);
+
+		$this->assertNull($address->hid);
+
+		$address->id = 2;
+		$this->Addresses->encode($address);
+
+		$expected = 'k5';
+		$this->assertSame($expected, $address->hid);
+	}
+
 }

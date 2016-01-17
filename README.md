@@ -99,3 +99,12 @@ Further config options are:
 You can set up a dedicated table field (like a slug field) for your hashid, but this is usually not necessary.
 This can be useful if you want to change the salt, and thus the old URLs need to be reachable.
 By default this is deactivated.
+
+## Security notice
+
+> Do you have a question or comment that involves "security" and "hashids" in the same sentence? Don't use Hashids.
+
+This sentence on the hashids documentation says it all: This is to cloak the IDs, but it is not a real secure encryption algorithm.
+
+## License
+MIT

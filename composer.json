@@ -1,0 +1,34 @@
+{
+	"name": "dereuromark/cakephp-hashid",
+	"type": "cakephp-plugin",
+	"description": "A CakePHP plugin to allow using hashids instead of numeric primary keys.",
+	"keywords": ["cakephp", "plugin", "hashids", "behavior"],
+	"homepage": "https://github.com/dereuromark/cakephp-hashid",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Mark Scherer",
+			"homepage": "http://www.dereuromark.de",
+			"role": "Maintainer"
+		}
+	],
+	"require": {
+		"php": ">=5.4",
+		"cakephp/cakephp": "~3.0",
+		"hashids/hashids": "^1.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Hashid\\": "src"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Hashid\\Test\\": "tests",
+			"Cake\\Test\\": "vendor/cakephp/cakephp/tests"
+		}
+	},
+	"support": {
+		"source": "https://github.com/dereuromark/cakephp-hashids"
+	}
+}

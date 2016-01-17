@@ -123,7 +123,7 @@ class HashidBehavior extends Behavior {
 
 	/**
 	 * @return \Hashids\Hashids
-     */
+	 */
 	protected function getHasher() {
 		if (isset($this->hashids)) {
 			return $this->hashids;
@@ -144,7 +144,7 @@ class HashidBehavior extends Behavior {
 	 * @param array $options Array of options as described above
 	 * @return \Cake\ORM\Query
 	 */
-	public function findHashed(Query $query, array $options) {debug($query);
+	public function findHashed(Query $query, array $options) {
 		$tableField = $this->_config['tableField'];
 		if ($tableField) {
 			$query->where([$tableField => $options[HashidBehavior::HID]]);
@@ -164,7 +164,7 @@ class HashidBehavior extends Behavior {
 	/**
 	 * @param int $id
 	 * @return string
-     */
+	 */
 	public function encodeId($id) {
 		return $this->getHasher()->encode($id);
 	}

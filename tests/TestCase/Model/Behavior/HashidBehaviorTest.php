@@ -1,18 +1,16 @@
 <?php
 namespace Hashid\Test\Model\Behavior;
 
-use Cake\Controller\Controller;
-use Cake\Datasource\Exception\RecordNotFoundException;
-use Cake\Network\Exception\NotFoundException;
 use Cake\TestSuite\TestCase;
 use Cake\ORM\TableRegistry;
-use Cake\ORM\Entity;
-use Cake\Database\Driver\Mysql;
 use Hashid\Model\Behavior\HashidBehavior;
 use Hashids\Hashids;
 
 class HashidBehaviorTest extends TestCase {
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = [
 		'plugin.Hashid.Addresses'
 	];
@@ -111,22 +109,22 @@ class HashidBehaviorTest extends TestCase {
 	}
 
 	/**
-		 * @return void
-		 */
-		public function testFindWithField() {
-			$address = $this->Addresses->find()->where(['city' => 'NoHashId'])->first();
-			$hashid = $this->Addresses->encodeId($address->id);
+	 * @return void
+	 */
+	public function testFindWithField() {
+		$address = $this->Addresses->find()->where(['city' => 'NoHashId'])->first();
+		$hashid = $this->Addresses->encodeId($address->id);
 
-			$this->Addresses->behaviors()->Hashid->config('field', 'hash');
+		$this->Addresses->behaviors()->Hashid->config('field', 'hash');
 
-			// Should also be included now
-			$address = $this->Addresses->find()->where(['city' => 'NoHashId'])->first();
-			$this->assertSame($hashid, $address->hash);
+		// Should also be included now
+		$address = $this->Addresses->find()->where(['city' => 'NoHashId'])->first();
+		$this->assertSame($hashid, $address->hash);
 
-			// Should also be included now
-			$address = $this->Addresses->get($address->id);
-			$this->assertSame($hashid, $address->hash);
-		}
+		// Should also be included now
+		$address = $this->Addresses->get($address->id);
+		$this->assertSame($hashid, $address->hash);
+	}
 
 	/**
 	 * @return void
@@ -163,8 +161,8 @@ class HashidBehaviorTest extends TestCase {
 	}
 
 	/**
- * @return void
- */
+	 * @return void
+	*/
 	public function testFindHashed() {
 		$address = $this->Addresses->find('hashed', [HashidBehavior::HID => 'jR'])->firstOrFail();
 		$this->assertTrue((bool)$address);

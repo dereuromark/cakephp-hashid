@@ -32,10 +32,12 @@ and
 bin/cake plugin load Hashid
 ```
 
-## Usage
+## Drop-in Replacement Usage
+If we want to just replace the numeric ids with hashids, we can use the default config.
+
 ```php
 // Adding the behavior in your Table initialize()
-$this->addBehavior('Hashid.Hashid', ['recursive' => true]);
+$this->addBehavior('Hashid.Hashid', ['recursive' => true, ...]);
 
 // Saving a new record
 $postData = [
@@ -51,7 +53,7 @@ The same would happen on each find().
 In our ctp file we can now keep all links as they were before:
 ```php
 // $id contains 'jR' instead of 1
-echo $this->Html->link(['action' => 'view', $id]);
+echo $this->Html->link(['action' => 'view', $user->id]);
 ```
 URL `/users/view/1` becomes `/users/view/jR`.
 
@@ -74,6 +76,18 @@ $user = $this->Users->find()->where(['id' => $id])->firstOrFail();
 ```
 
 If you re-save the entity, it will just use the primary key again internally, so it's safe to modify and perist entity data.
+
+## Semi-automatic Usage
+We can also use a separate field for the hashid:
+```php
+$this->addBehavior('Hashid.Hashid', ['field' => 'hashid']);
+
+// Lookups with hashids
+$user = $this->Users->find('hashed', [HashidBehavior::HID => $hashid])->first();
+
+// Output in your ctp
+echo $this->Html->link(['action' => 'view', $user->hashid]);
+```
 
 ## Manual usage
 Of course you can also encode and decode manually:

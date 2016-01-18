@@ -6,9 +6,9 @@
 [![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-hashid/d/total.svg)](https://packagist.org/packages/dereuromark/cakephp-hashid)
 [![Coding Standards](https://img.shields.io/badge/cs-PSR--2--R-yellow.svg)](https://github.com/php-fig-rectified/fig-rectified-standards)
 
-A CakePHP 3.x Plugin to
+A CakePHP 3.x plugin to
 - easily use [hashids](https://github.com/ivanakimov/hashids.php) for your database table lookups
-- cloak the actual numeric id behind the record (assuming you use a non public salt) for URLs and alike
+- cloak the actual numeric primary key behind the record (assuming you use a non public salt) for URLs, APIs and alike
 
 Why not UUIDS?
 - UUIDs can be up to 200x slower with growing DB tables, complex or heavy joins and especially with CakePHP default char(36). But even with the recommended binary(16) it would not be ideal.
@@ -84,7 +84,10 @@ $hashid = $user->hashid;
 
 ## Helper usage
 If you stick to the non-field way and you want to rather encode on demand in your view, you can use the helper to encode your IDs:
-```
+```php
+// You must load the helper before
+$this->loadHelper('Hashid.Hashid', $optionalConfigArray);
+
 // In our ctp file we can now link to the hashed version
 $hashid = $this->Hashid->encodeId($user->id);
 echo $this->Html->link(['action' => 'view', $hashid]);

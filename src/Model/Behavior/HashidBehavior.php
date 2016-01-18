@@ -73,7 +73,7 @@ class HashidBehavior extends Behavior {
 	 * @return void
 	 */
 	public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary) {
-		if (!$primary && !$this->_config['recursive']) {
+		if (!$primary) {
 			return;
 		}
 
@@ -95,13 +95,16 @@ class HashidBehavior extends Behavior {
 				return $expression;
 			});
 		}
-		/*
+
+		if (!$this->_config['recursive']) {
+			return;
+		}
+
 		foreach ($this->_table->associations() as $association) {
 			if ($association->target()->hasBehavior('Hashid') && $association->finder() === 'all') {
 				$association->finder('hashed');
 			}
 		}
-		*/
 	}
 
 	/**
@@ -188,7 +191,6 @@ class HashidBehavior extends Behavior {
 		});
 
 		if (!empty($options[HashidBehavior::HID])) {
-			debug($options[HashidBehavior::HID]);
 			$id = $this->decodeHashid($options[HashidBehavior::HID]);
 			$query->where([$idField => $id]);
 		}

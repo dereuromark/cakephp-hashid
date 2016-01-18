@@ -64,10 +64,16 @@ public function view($id = null) {
 	$user = $this->Users->get($id);
 	...
 }
-
 ```
 
-Et voila. Easy and without overhead.
+Et voila. Activated easily and without changing any existing code.
+
+You can also use any find() method, just as you normally would:
+```php
+$user = $this->Users->find()->where(['id' => $id])->firstOrFail();
+```
+
+If you re-save the entity, it will just use the primary key again internally, so it's safe to modify and perist entity data.
 
 ## Manual usage
 Of course you can also encode and decode manually:
@@ -93,9 +99,9 @@ You can provide global configs via Configure and your own `app.php`:
 If you do not provide a salt it is very easy to retreive the original numeric id from your hashid.
 
 Further config options are:
-- field: Field name to populate with hashids upon save() and find(), defaults to `null` (= disabled)
+- field: Field name to populate with hashids upon save() and find(), defaults to `null` (= primary key)
 - recursive: If you want also associated fetched entities' ids hashid'd, defaults to `false`.
-- first: Set to true if you want each find('hashed') to return the `->first()` result, or to `firstOrFail` to fail if none can be found. Defaults to `null` (= disabled).
+- findFirst: Set to true if you want each find('hashed') to return the `->first()` result, or to `firstOrFail` to fail if none can be found. Defaults to `null` (= disabled).
 
 ## Security notice
 

@@ -77,12 +77,12 @@ class HashidBehavior extends Behavior {
 			return;
 		}
 
-		$query->find('hashed');
-
 		$field = $this->_config['field'];
 		if (!$field) {
 			return;
 		}
+
+		$query->find('hashed');
 
 		$idField = $this->_primaryKey;
 		if ($field === $idField) {

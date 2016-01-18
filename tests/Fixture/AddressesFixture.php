@@ -32,7 +32,6 @@ class AddressesFixture extends TestFixture {
 	 */
 	public $records = [
 		[
-			'id' => 1,
 			'street' => 'Langstrasse 10',
 			'postal_code' => '101010',
 			'city' => 'München',
@@ -41,7 +40,6 @@ class AddressesFixture extends TestFixture {
 			'hash' => 'jR'
 		],
 		[
-			'id' => 2,
 			'street' => 'Xyz 20',
 			'postal_code' => '123',
 			'city' => 'NoHashId',

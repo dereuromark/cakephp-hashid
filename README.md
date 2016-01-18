@@ -1,4 +1,4 @@
-# Hashid plugin for CakePHP
+# Hashid Plugin for CakePHP
 [![Build Status](https://api.travis-ci.org/dereuromark/cakephp-hashid.svg)](https://travis-ci.org/dereuromark/cakephp-hashid)
 [![Coverage Status](https://coveralls.io/repos/dereuromark/cakephp-hashid/badge.svg)](https://coveralls.io/r/dereuromark/cakephp-hashid)
 [![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)](https://php.net/)
@@ -69,7 +69,7 @@ public function view($hashid = null) {
 
 Et voila. Easy and without overhead.
 
-## Manual usage
+## Manual Usage
 Of course you can also encode and decode manually:
 ```php
 // 1 => 'jR'
@@ -83,7 +83,7 @@ $this->Users->encode($user);
 $hashid = $user->hashid;
 ```
 
-## Helper usage
+## Helper Usage
 If you stick to the non-field way and you want to rather encode on demand in your view, you can use the helper to encode your IDs:
 ```php
 // You must load the helper before
@@ -94,7 +94,7 @@ $hashid = $this->Hashid->encodeId($user->id);
 echo $this->Html->link(['action' => 'view', $hashid]);
 ```
 
-## Additional configuration
+## Additional Configuration
 You can provide global configs via Configure and your own `app.php`:
 ```php
 'Hashid' => [
@@ -120,7 +120,7 @@ If you use this for building your URLS and if those are indexed (no `noindex` me
 Changing the salt changes the hashids generated and thus also the URL. In that case you get 404s for the *old* URLs, often times losing
 traffic and SEO juice. You would want to store all old hashids together with their ids in a table for a 301 redirect lookup.
 
-## Security notice
+## Security Notice
 
 > Do you have a question or comment that involves "security" and "hashids" in the same sentence? Don't use Hashids.
 

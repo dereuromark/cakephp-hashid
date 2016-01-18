@@ -178,35 +178,20 @@ class HashidBehaviorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testSaveWithTableField() {
-		$this->Addresses->behaviors()->Hashid->config('tableField', 'hash');
+	public function testFindWithIdAsField() {
+		$this->Addresses->behaviors()->Hashid->config('field', 'id');
 
-		$data = [
-			'city' => 'FooBar'
-		];
-		$address = $this->Addresses->newEntity($data);
-		$res = $this->Addresses->save($address);
-		$this->assertTrue((bool)$res);
+		$address = $this->Addresses->find()->where(['city' => 'NoHashId'])->first();
+		$hashid = $this->Addresses->encodeId($address->getOriginal('id'));
+		$this->assertSame($hashid, $address->id);
 
-		$hasher = new Hashids();
-		$expected = $hasher->encode($address->id);
-		$this->assertEquals($expected, $address->hash);
-	}
+		$address = $this->Addresses->patchEntity($address, ['postal_code' => '678']);
 
-	/**
-	 * @return void
-	 */
-	public function testFindByTableField() {
-		$this->Addresses->behaviors()->Hashid->config('tableField', 'hash');
+		$result = $this->Addresses->save($address);
+		$this->assertTrue((bool)$result);
 
-		$hash = 'jR';
-		$address = $this->Addresses->find('hashed', [HashidBehavior::HID => $hash])->first();
-		$this->assertTrue((bool)$address);
-
-		$hasher = new Hashids();
-		$ids = $hasher->decode($address->hash);
-		$id = array_shift($ids);
-		$this->assertEquals($address->id, $id);
+		$address = $this->Addresses->find()->where(['city' => 'NoHashId'])->first();
+		$this->assertSame($hashid, $address->id);
 	}
 
 	/**

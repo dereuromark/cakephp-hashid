@@ -23,15 +23,11 @@ class HashidBehavior extends Behavior {
 	 */
 	protected $hashids;
 
-	/**
-	 * @var array
-	 */
 	protected $_defaultConfig = [
-		'salt' => true, // True for Security.salt Configure value or provide your own salt string
+		'salt' => null, // Please provide your own salt via Configure
 		'field' => null, // To populate upon find() and save()
-		'tableField' => false, // To have a dedicated field in the table
-		'debug' => null, // Auto-detect
 		'first' => false, // Either true or 'first' or 'firstOrFail'
+		'recursive' => false, // Also transform nested entities
 		'implementedFinders' => [
 			'hashed' => 'findHashed',
 		]
@@ -52,22 +48,21 @@ class HashidBehavior extends Behavior {
 		$defaults = (array)Configure::read('Hashid');
 		parent::__construct($table, $config + $defaults);
 
-		if ($this->_config['salt'] === true) {
-			$this->_config['salt'] = Configure::read('Security.salt');
-		}
-		if ($this->_config['debug'] === null) {
-			$this->_config['debug'] = Configure::read('debug');
-		}
-
 		$this->_table = $table;
 	}
 
 	/**
 	 * @param Event $event
 	 * @param Query $query
+	 * @param \ArrayObject $options
+	 * @param $primary
 	 * @return void
 	 */
-	public function beforeFind(Event $event, Query $query) {
+	public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary) {
+		if (!$primary && !$this->_config['recursive']) {
+			return;
+		}
+
 		$field = $this->_config['field'];
 		if (!$field) {
 			return;
@@ -77,14 +72,23 @@ class HashidBehavior extends Behavior {
 
 		$query->formatResults(function (\Cake\Datasource\ResultSetInterface $results) use ($field, $idField) {
 			return $results->map(function ($row) use ($field, $idField) {
-				if (!empty($row[$field]) || empty($row[$idField])) {
+				if (empty($row[$idField])) {
 					return $row;
 				}
 
 				$row[$field] = $this->encodeId($row[$idField]);
+				$row->dirty($field, false);
 				return $row;
 			});
 		});
+
+		/*
+		foreach ($this->_table->associations() as $association) {
+			if ($association->target()->hasBehavior('Hashid') && $association->finder() === 'all') {
+				$association->finder('hashed');
+			}
+		}
+		*/
 	}
 
 	/**
@@ -117,22 +121,15 @@ class HashidBehavior extends Behavior {
 		}
 
 		$field = $this->_config['field'];
-		$tableField = $this->_config['tableField'];
 
-		if ($tableField === true) {
-			$tableField = $field;
-		}
-		if (!$field && !$tableField) {
+		if (!$field) {
 			return false;
 		}
 
 		$hashid = $this->encodeId($id);
-		if ($field) {
-			$entity->set($field, $hashid);
-		}
-		if ($tableField && $tableField !== $field) {
-			$entity->set($tableField, $hashid);
-		}
+
+		$entity->set($field, $hashid);
+		$entity->dirty($field, false);
 
 		return true;
 	}
@@ -161,14 +158,9 @@ class HashidBehavior extends Behavior {
 	 * @return \Cake\ORM\Query
 	 */
 	public function findHashed(Query $query, array $options) {
-		$tableField = $this->_config['tableField'];
-		if ($tableField) {
-			$query->where([$tableField => $options[HashidBehavior::HID]]);
-		} else {
-			$idField = $this->_table->primaryKey();
-			$id = $this->decodeHashid($options[HashidBehavior::HID]);
-			$query->where([$idField => $id]);
-		}
+		$idField = $this->_table->primaryKey();
+		$id = $this->decodeHashid($options[HashidBehavior::HID]);
+		$query->where([$idField => $id]);
 
 		$first = $this->_config['first'] === true ? 'first' : $this->_config['first'];
 		if (!$first || !empty($options['noFirst'])) {
@@ -182,11 +174,7 @@ class HashidBehavior extends Behavior {
 	 * @return string
 	 */
 	public function encodeId($id) {
-		$hashid = $this->getHasher()->encode($id);
-		if ($this->_config['debug']) {
-			$hashid .= '-' . $id;
-		}
-		return $hashid;
+		return $this->getHasher()->encode($id);
 	}
 
 	/**
@@ -194,10 +182,6 @@ class HashidBehavior extends Behavior {
 	 * @return int
 	 */
 	public function decodeHashid($hashid) {
-		if ($this->_config['debug']) {
-			$hashid = substr($hashid, 0, strpos($hashid, '-'));
-		}
-
 		$ids = $this->getHasher()->decode($hashid);
 		return array_shift($ids);
 	}

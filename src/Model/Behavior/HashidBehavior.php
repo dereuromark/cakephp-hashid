@@ -21,13 +21,23 @@ class HashidBehavior extends Behavior {
 	/**
 	 * @var \Hashids\Hashids
 	 */
-	protected $hashids;
+	protected $_hashids;
+
+	/**
+	 * @var \Cake\ORM\Table
+	 */
+	protected $_table;
+
+	/**
+	 * @var array|string
+	 */
+	protected $_primaryKey;
 
 	protected $_defaultConfig = [
 		'salt' => null, // Please provide your own salt via Configure
-		'field' => null, // To populate upon find() and save()
-		'first' => false, // Either true or 'first' or 'firstOrFail'
+		'field' => null, // To populate upon find() and save(), false to deactivate
 		'recursive' => false, // Also transform nested entities
+		'findFirst' => false, // Either true or 'first' or 'firstOrFail'
 		'implementedFinders' => [
 			'hashed' => 'findHashed',
 		]
@@ -49,6 +59,10 @@ class HashidBehavior extends Behavior {
 		parent::__construct($table, $config + $defaults);
 
 		$this->_table = $table;
+		$this->_primaryKey = $table->primaryKey();
+		if ($this->_config['field'] === null) {
+			$this->_config['field'] = $this->_primaryKey;
+		}
 	}
 
 	/**
@@ -63,25 +77,24 @@ class HashidBehavior extends Behavior {
 			return;
 		}
 
+		$query->find('hashed');
+
 		$field = $this->_config['field'];
 		if (!$field) {
 			return;
 		}
 
-		$idField = $this->_table->primaryKey();
-
-		$query->formatResults(function (\Cake\Datasource\ResultSetInterface $results) use ($field, $idField) {
-			return $results->map(function ($row) use ($field, $idField) {
-				if (empty($row[$idField])) {
-					return $row;
+		$idField = $this->_primaryKey;
+		if ($field === $idField) {
+			$query->traverseExpressions(function ($expression) {
+				if (method_exists($expression, 'getField')
+					&& $expression->getField() === $this->_primaryKey
+				) {
+					$expression->setValue($this->decodeHashid($expression->getValue()));
 				}
-
-				$row[$field] = $this->encodeId($row[$idField]);
-				$row->dirty($field, false);
-				return $row;
+				return $expression;
 			});
-		});
-
+		}
 		/*
 		foreach ($this->_table->associations() as $association) {
 			if ($association->target()->hasBehavior('Hashid') && $association->finder() === 'all') {
@@ -102,9 +115,7 @@ class HashidBehavior extends Behavior {
 			return;
 		}
 
-		if ($this->encode($entity)) {
-			$this->_table->save($entity, ['validate' => false]);
-		}
+		$this->encode($entity);
 	}
 
 	/**
@@ -114,14 +125,13 @@ class HashidBehavior extends Behavior {
 	 * @return bool True if save should proceed, false otherwise
 	 */
 	public function encode(Entity $entity) {
-		$idField = $this->_table->primaryKey();
+		$idField = $this->_primaryKey;
 		$id = $entity->get($idField);
 		if (!$id) {
 			return false;
 		}
 
 		$field = $this->_config['field'];
-
 		if (!$field) {
 			return false;
 		}
@@ -138,12 +148,12 @@ class HashidBehavior extends Behavior {
 	 * @return \Hashids\Hashids
 	 */
 	protected function getHasher() {
-		if (isset($this->hashids)) {
-			return $this->hashids;
+		if (isset($this->_hashids)) {
+			return $this->_hashids;
 		}
-		$this->hashids = new Hashids($this->_config['salt']);
+		$this->_hashids = new Hashids($this->_config['salt']);
 
-		return $this->hashids;
+		return $this->_hashids;
 	}
 
 	/**
@@ -158,11 +168,32 @@ class HashidBehavior extends Behavior {
 	 * @return \Cake\ORM\Query
 	 */
 	public function findHashed(Query $query, array $options) {
-		$idField = $this->_table->primaryKey();
-		$id = $this->decodeHashid($options[HashidBehavior::HID]);
-		$query->where([$idField => $id]);
+		$field = $this->_config['field'];
+		if (!$field) {
+			return $query;
+		}
 
-		$first = $this->_config['first'] === true ? 'first' : $this->_config['first'];
+		$idField = $this->_primaryKey;
+
+		$query->formatResults(function ($results) use ($field, $idField) {
+			return $results->map(function ($row) use ($field, $idField) {
+				if (empty($row[$idField])) {
+					return $row;
+				}
+
+				$row[$field] = $this->encodeId($row[$idField]);
+				$row->dirty($field, false);
+				return $row;
+			});
+		});
+
+		if (!empty($options[HashidBehavior::HID])) {
+			debug($options[HashidBehavior::HID]);
+			$id = $this->decodeHashid($options[HashidBehavior::HID]);
+			$query->where([$idField => $id]);
+		}
+
+		$first = $this->_config['findFirst'] === true ? 'first' : $this->_config['findFirst'];
 		if (!$first || !empty($options['noFirst'])) {
 			return $query;
 		}

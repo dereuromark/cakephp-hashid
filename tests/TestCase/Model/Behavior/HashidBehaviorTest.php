@@ -67,7 +67,7 @@ class HashidBehaviorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testFind() {
+	public function testSaveAndFind() {
 		$data = [
 			'city' => 'Foo'
 		];
@@ -133,6 +133,7 @@ class HashidBehaviorTest extends TestCase {
 		$address = $this->Addresses->newEntity($data);
 		$res = $this->Addresses->save($address);
 		$this->assertTrue((bool)$res);
+		$this->assertSame(3, $address->id);
 
 		$hasher = new Hashids();
 		$expected = $hasher->encode($address->id);
@@ -160,7 +161,9 @@ class HashidBehaviorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testFindWithField() {
+	public function testFindWithFieldFalse() {
+		$this->Addresses->behaviors()->Hashid->config('field', false);
+
 		$address = $this->Addresses->find()->where(['city' => 'NoHashId'])->first();
 		$hashid = $this->Addresses->encodeId($address->id);
 
@@ -192,13 +195,18 @@ class HashidBehaviorTest extends TestCase {
 
 		$address = $this->Addresses->find()->where(['city' => 'NoHashId'])->first();
 		$this->assertSame($hashid, $address->id);
+
+		// hashid is k5
+		// Only failing test
+		$address = $this->Addresses->get($hashid);
+		$this->assertSame($hashid, $address->id);
 	}
 
 	/**
 	 * @return void
 	*/
 	public function testFindHashed() {
-		$address = $this->Addresses->find('hashed', [HashidBehavior::HID => 'jR'])->firstOrFail();
+		$address = $this->Addresses->find()->where(['id' => 'jR'])->firstOrFail();
 		$this->assertTrue((bool)$address);
 	}
 
@@ -207,7 +215,25 @@ class HashidBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testFindHashedFail() {
-		$this->Addresses->find('hashed', [HashidBehavior::HID => 'jRx'])->firstOrFail();
+		$this->Addresses->find()->where(['id' => 'jRx'])->firstOrFail();
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testFindFieldFalse() {
+		$this->Addresses->behaviors()->Hashid->config('field', false);
+
+		$address = $this->Addresses->find()->where(['id' => 1])->firstOrFail();
+		$this->assertTrue((bool)$address);
+	}
+
+	/**
+	 * @expectedException \Cake\Datasource\Exception\RecordNotFoundException
+	 * @return void
+	 */
+	public function testFindHashedFail2() {
+		$this->Addresses->find()->where(['id' => 1])->firstOrFail();
 	}
 
 	/**
@@ -215,7 +241,7 @@ class HashidBehaviorTest extends TestCase {
 	 */
 	public function testFindHashedWithFieldFirst() {
 		$this->Addresses->behaviors()->Hashid->config('field', 'hash');
-		$this->Addresses->behaviors()->Hashid->config('first', true);
+		$this->Addresses->behaviors()->Hashid->config('findFirst', true);
 
 		$hashid = 'k5';
 		$address = $this->Addresses->find('hashed', [HashidBehavior::HID => $hashid]);

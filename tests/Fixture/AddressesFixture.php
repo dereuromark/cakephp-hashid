@@ -21,7 +21,6 @@ class AddressesFixture extends TestFixture {
 		'city' => ['type' => 'string', 'null' => false, 'default' => '', 'length' => 100],
 		'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
 		'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
-		'hash' => ['type' => 'string', 'null' => false, 'default' => '', 'length' => 100],
 		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
 	];
 
@@ -32,20 +31,20 @@ class AddressesFixture extends TestFixture {
 	 */
 	public $records = [
 		[
+			'id' => '1', // ID 2 => 'jR'
 			'street' => 'Langstrasse 10',
 			'postal_code' => '101010',
 			'city' => 'München',
 			'created' => '2011-04-21 16:50:05',
 			'modified' => '2011-10-07 17:42:27',
-			'hash' => 'jR'
 		],
 		[
+			'id' => '2', // ID 2 => 'k5'
 			'street' => 'Xyz 20',
 			'postal_code' => '123',
 			'city' => 'NoHashId',
 			'created' => '2011-04-21 16:50:05',
 			'modified' => '2011-10-07 17:42:27',
-			'hash' => '' // ID 2 => `k5`
 		],
 	];
 }

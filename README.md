@@ -115,6 +115,11 @@ You can set up a dedicated table field (like a slug field) for your hashid, but 
 This can be useful if you want to change the salt, and thus the old URLs need to be reachable.
 By default this is deactivated.
 
+## SEO Notice
+If you use this for building your URLS and if those are indexed (no `noindex` meta tag), you should be careful about changing the salt in production.
+Changing the salt changes the hashids generated and thus also the URL. In that case you get 404s for the *old* URLs, often times losing
+traffic and SEO juice. You would want to store all old hashids together with their ids in a table for a 301 redirect lookup.
+
 ## Security notice
 
 > Do you have a question or comment that involves "security" and "hashids" in the same sentence? Don't use Hashids.

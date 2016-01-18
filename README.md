@@ -50,7 +50,7 @@ The user entity now contains a `hashid` field (not saved by default, only in the
 ```php
 // In our ctp file we can now link to this using the HtmlHelper
 $hashid = $user->hashid;
-$this->Html->link(['action' => 'view', $hashid]);
+echo $this->Html->link(['action' => 'view', $hashid]);
 ```
 URL `/users/view/1` becomes `/users/view/jR`.
 
@@ -80,6 +80,14 @@ $id = $this->Users->decodeHashid($hashid);
 // Or if you got an entity
 $this->Users->encode($user);
 $hashid = $user->hashid;
+```
+
+## Helper usage
+If you stick to the non-field way and you want to rather encode on demand in your view, you can use the helper to encode your IDs:
+```
+// In our ctp file we can now link to the hashed version
+$hashid = $this->Hashid->encodeId($user->id);
+echo $this->Html->link(['action' => 'view', $hashid]);
 ```
 
 ## Additional configuration

@@ -23,6 +23,9 @@ class HashidBehavior extends Behavior {
 	 */
 	protected $hashids;
 
+	/**
+	 * @var array
+	 */
 	protected $_defaultConfig = [
 		'salt' => true, // True for Security.salt Configure value or provide your own salt string
 		'field' => null, // To populate upon find() and save()

@@ -53,6 +53,7 @@ $hashid = $user->hashid;
 echo $this->Html->link(['action' => 'view', $hashid]);
 ```
 URL `/users/view/1` becomes `/users/view/jR`.
+And in debug mode (on your local computer probably) `/users/view/1` becomes `/users/view/jR-1`.
 
 In our UsersController, we now check with this hashid instead:
 ```php

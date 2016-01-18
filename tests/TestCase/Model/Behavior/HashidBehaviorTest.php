@@ -103,8 +103,9 @@ class HashidBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testFindDebugMode() {
-		$this->Addresses->behaviors()->Hashid->config('field', 'hashid');
-		$this->Addresses->behaviors()->Hashid->config('debug', true);
+		Configure::write('debug', true);
+		$this->Addresses->removeBehavior('Hashid');
+		$this->Addresses->addBehavior('Hashid.Hashid', ['field' => 'hashid', 'debug' => null]);
 
 		$data = [
 			'city' => 'Foo'

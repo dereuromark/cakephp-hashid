@@ -89,10 +89,13 @@ You can provide global configs via Configure and your own `app.php`:
 	'salt' => 'Your own salt' // This is important
 ],
 ```
-If you do not provide a salt it is very easy to retreive the original numeric id from your hashid.
+It is recommended to keep `'salt'` to `true` - this way it uses your current Configure salt.
+But you can also set it to any custom string.
+If you do not provide a salt it is very easy to retrieve the original numeric id from your hashid.
 
 Further config options are:
-- field: Field name to populate with hashids upon save() and find(), defaults to `null` (= disabled)
+- debug: Defaults to current Configure value, in debug mode it will append the numeric id (`jR-1`) for easier debugging.
+- field: Field name to populate with hashids upon save() and find(), defaults to `null` (= disabled).
 - tableField: If you want to store the generated hashids in the table under this field, defaults to `false` (= disabled). Set to true for the same field as `field`, otherwise the field name.
 - first: Set to true if you want each find('hashed') to return the `->first()` result, or to `firstOrFail` to fail if none can be found. Defaults to `null` (= disabled).
 

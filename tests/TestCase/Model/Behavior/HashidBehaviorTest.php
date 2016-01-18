@@ -1,6 +1,7 @@
 <?php
 namespace Hashid\Test\Model\Behavior;
 
+use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
 use Cake\ORM\TableRegistry;
 use Hashid\Model\Behavior\HashidBehavior;
@@ -25,6 +26,15 @@ class HashidBehaviorTest extends TestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
+
+		Configure::write('Hashid', [
+				'debug' => false,
+			]
+		);
+		Configure::write('Security', [
+				'salt' => null // For testing
+			]
+		);
 
 		$this->Addresses = TableRegistry::get('Hashid.Addresses');
 		$this->Addresses->addBehavior('Hashid.Hashid');
@@ -68,7 +78,45 @@ class HashidBehaviorTest extends TestCase {
 		$hasher = new Hashids();
 		$hashid = $hasher->encode($id);
 
-		$address = $this->Addresses->find('hashed', [HashidBehavior::HID => $hashid]);
+		$address = $this->Addresses->find('hashed', [HashidBehavior::HID => $hashid])->first();
+		$this->assertTrue((bool)$address);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testSaveDebugMode() {
+		$this->Addresses->behaviors()->Hashid->config('field', 'hashid');
+		$this->Addresses->behaviors()->Hashid->config('debug', true);
+
+		$data = [
+			'city' => 'Foo'
+		];
+		$address = $this->Addresses->newEntity($data);
+		$res = $this->Addresses->save($address);
+		$this->assertTrue((bool)$res);
+
+		$this->assertSame('l5-3', $address->hashid);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testFindDebugMode() {
+		$this->Addresses->behaviors()->Hashid->config('field', 'hashid');
+		$this->Addresses->behaviors()->Hashid->config('debug', true);
+
+		$data = [
+			'city' => 'Foo'
+		];
+		$address = $this->Addresses->newEntity($data);
+		$res = $this->Addresses->save($address);
+
+		$id = $address->id;
+		$hasher = new Hashids();
+		$hashid = $hasher->encode($id) . '-' . $id;
+
+		$address = $this->Addresses->find('hashed', [HashidBehavior::HID => $hashid])->first();
 		$this->assertTrue((bool)$address);
 	}
 
@@ -203,6 +251,25 @@ class HashidBehaviorTest extends TestCase {
 		$this->Addresses->encode($address);
 
 		$expected = 'k5';
+		$this->assertSame($expected, $address->hid);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testEncodeSecuritySalt() {
+		Configure::write('Security', [
+				'salt' => '123'
+		]);
+		$this->Addresses->removeBehavior('Hashid');
+		$this->Addresses->addBehavior('Hashid.Hashid', ['field' => 'hid', 'salt' => true]);
+
+		$address = $this->Addresses->newEntity();
+
+		$address->id = 2;
+		$this->Addresses->encode($address);
+
+		$expected = 'ng';
 		$this->assertSame($expected, $address->hid);
 	}
 

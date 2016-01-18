@@ -24,9 +24,10 @@ class HashidBehavior extends Behavior {
 	protected $hashids;
 
 	protected $_defaultConfig = [
-		'salt' => null, // Please provide your own salt via Configure
+		'salt' => true, // True for Security.salt Configure value or provide your own salt string
 		'field' => null, // To populate upon find() and save()
 		'tableField' => false, // To have a dedicated field in the table
+		'debug' => null, // Auto-detect
 		'first' => false, // Either true or 'first' or 'firstOrFail'
 		'implementedFinders' => [
 			'hashed' => 'findHashed',
@@ -47,6 +48,13 @@ class HashidBehavior extends Behavior {
 	public function __construct(Table $table, array $config = []) {
 		$defaults = (array)Configure::read('Hashid');
 		parent::__construct($table, $config + $defaults);
+
+		if ($this->_config['salt'] === true) {
+			$this->_config['salt'] = Configure::read('Security.salt');
+		}
+		if ($this->_config['debug'] === null) {
+			$this->_config['debug'] = Configure::read('debug');
+		}
 
 		$this->_table = $table;
 	}
@@ -171,7 +179,11 @@ class HashidBehavior extends Behavior {
 	 * @return string
 	 */
 	public function encodeId($id) {
-		return $this->getHasher()->encode($id);
+		$hashid = $this->getHasher()->encode($id);
+		if ($this->_config['debug']) {
+			$hashid .= '-' . $id;
+		}
+		return $hashid;
 	}
 
 	/**
@@ -179,6 +191,10 @@ class HashidBehavior extends Behavior {
 	 * @return int
 	 */
 	public function decodeHashid($hashid) {
+		if ($this->_config['debug']) {
+			$hashid = substr($hashid, 0, strpos($hashid, '-'));
+		}
+
 		$ids = $this->getHasher()->decode($hashid);
 		return array_shift($ids);
 	}

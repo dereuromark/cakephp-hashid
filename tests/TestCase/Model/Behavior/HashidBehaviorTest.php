@@ -82,6 +82,8 @@ class HashidBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testFind() {
+		$this->Addresses->behaviors()->Hashid->config('field', 'hashid');
+
 		$data = [
 			'city' => 'Foo'
 		];

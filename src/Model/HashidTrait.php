@@ -19,6 +19,10 @@ trait HashidTrait {
 	 * @return string
 	 */
 	public function encodeId($id) {
+		if ($id < 1 || !is_int($id)) {
+			throw new \Exception('Invalid integer, the id must be >= 1.');
+		}
+
 		$hashid = $this->_getHasher()->encode($id);
 
 		if ($this->_config['debug']) {

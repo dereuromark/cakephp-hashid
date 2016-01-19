@@ -85,6 +85,9 @@ $this->addBehavior('Hashid.Hashid', ['field' => 'hashid']);
 // Lookups with hashids
 $user = $this->Users->find('hashed', [HashidBehavior::HID => $hashid])->first();
 
+// But also all normal find()/get() would contain the hashid in the entity
+$user = $this-User->get($id);
+
 // Output in your ctp
 echo $this->Html->link(['action' => 'view', $user->hashid]);
 ```

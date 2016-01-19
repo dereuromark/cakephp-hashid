@@ -96,6 +96,17 @@ $user = $this-User->get($id);
 echo $this->Html->link(['action' => 'view', $user->hashid]);
 ```
 
+## Helper Usage
+If you stick to the non-field way and you want to rather encode on demand in your view, you can use the helper to encode your IDs:
+```php
+// You must load the helper before
+$this->loadHelper('Hashid.Hashid', $optionalConfigArray);
+
+// In our ctp file we can now link to the hashed version
+$hashid = $this->Hashid->encodeId($user->id);
+echo $this->Html->link(['action' => 'view', $hashid]);
+```
+
 ## Manual usage
 Of course you can also encode and decode manually:
 ```php
@@ -112,16 +123,19 @@ $this->Users->encode($user);
 $hid = $user->hid;
 ```
 
-## Helper Usage
-If you stick to the non-field way and you want to rather encode on demand in your view, you can use the helper to encode your IDs:
+## Trait Usage
+The trait is the key component holding the actual de- and encoding functionality.
+You can put it on top of any class that needs hashid support:
 ```php
-// You must load the helper before
-$this->loadHelper('Hashid.Hashid', $optionalConfigArray);
+use Hashid\Model\HashidTrait;
 
-// In our ctp file we can now link to the hashed version
-$hashid = $this->Hashid->encodeId($user->id);
-echo $this->Html->link(['action' => 'view', $hashid]);
+class FooBar {
+
+	use HashidTrait;
+
+}
 ```
+Now you got the `encodeId()` and `decodeHashid()` methods from above at your disposal.
 
 ## Additional Configuration
 You can provide global configs via Configure and your own `app.php`:

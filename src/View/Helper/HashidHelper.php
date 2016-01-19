@@ -31,7 +31,7 @@ class HashidHelper extends Helper {
 		$defaults = (array)Configure::read('Hashid');
 		parent::__construct($View, $config + $defaults);
 
-		if ($this->_config['salt'] === true) {
+		if ($this->_config['salt'] === null) {
 			$this->_config['salt'] = Configure::read('Security.salt');
 		}
 		if ($this->_config['debug'] === null) {

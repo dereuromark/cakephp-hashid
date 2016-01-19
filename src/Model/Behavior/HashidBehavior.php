@@ -36,10 +36,10 @@ class HashidBehavior extends Behavior {
 	protected $_primaryKey;
 
 	protected $_defaultConfig = [
-		'salt' => null, // Please provide your own salt via Configure
+		'salt' => null, // Please provide your own salt via Configure key 'Security.salt'
 		'field' => null, // To populate upon find() and save(), false to deactivate
+		'debug' => null, // Auto-detect from Configure::read('debug')
 		'recursive' => false, // Also transform nested entities
-		'debug' => null, // Auto-detect
 		'findFirst' => false, // Either true or 'first' or 'firstOrFail'
 		'implementedFinders' => [
 			'hashed' => 'findHashed',
@@ -64,7 +64,7 @@ class HashidBehavior extends Behavior {
 		$this->_table = $table;
 		$this->_primaryKey = $table->primaryKey();
 
-		if ($this->_config['salt'] === true) {
+		if ($this->_config['salt'] === null) {
 			$this->_config['salt'] = Configure::read('Security.salt');
 		}
 		if ($this->_config['debug'] === null) {

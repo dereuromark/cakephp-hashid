@@ -29,7 +29,7 @@ class HashidHelperTest extends TestCase {
 			]
 		);
 		Configure::write('Security', [
-				'salt' => null // For testing
+				'salt' => '' // For testing
 			]
 		);
 
@@ -57,6 +57,38 @@ class HashidHelperTest extends TestCase {
 
 		$hashid = $this->Hashid->encodeId($id);
 		$this->assertSame('jR', $hashid);
+
+		$newId = $this->Hashid->decodeHashid($hashid);
+		$this->assertSame($id, $newId);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testEncodeDecodeSalt() {
+		Configure::write('Security.salt', 'foobar');
+		$this->Hashid = new HashidHelper($this->view);
+
+		$id = 1;
+
+		$hashid = $this->Hashid->encodeId($id);
+		$this->assertSame('XE', $hashid);
+
+		$newId = $this->Hashid->decodeHashid($hashid);
+		$this->assertSame($id, $newId);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testEncodeDecodeDebug() {
+		Configure::write('Hashid.debug', true);
+		$this->Hashid = new HashidHelper($this->view);
+
+		$id = 1;
+
+		$hashid = $this->Hashid->encodeId($id);
+		$this->assertSame('jR-1', $hashid);
 
 		$newId = $this->Hashid->decodeHashid($hashid);
 		$this->assertSame($id, $newId);

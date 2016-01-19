@@ -34,7 +34,7 @@ class HashidBehaviorTest extends TestCase {
 			]
 		);
 		Configure::write('Security', [
-				'salt' => null // For testing
+				'salt' => '' // For testing
 			]
 		);
 

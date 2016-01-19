@@ -6,8 +6,9 @@
 [![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-hashid/d/total.svg)](https://packagist.org/packages/dereuromark/cakephp-hashid)
 [![Coding Standards](https://img.shields.io/badge/cs-PSR--2--R-yellow.svg)](https://github.com/php-fig-rectified/fig-rectified-standards)
 
+Exposed [hashids](https://github.com/ivanakimov/hashids.php) as drop-in replacement for your numeric primary keys.
+
 ## A CakePHP 3.x plugin to
-- easily use [hashids](https://github.com/ivanakimov/hashids.php) for your database table lookups
 - cloak the actual numeric primary key behind the record (assuming you use a non public salt) for URLs, APIs and alike
 - build short unique IDs (`2.147.483.647` becomes `lXQAALg` for example, so `length <= 7` for the hashid)
 

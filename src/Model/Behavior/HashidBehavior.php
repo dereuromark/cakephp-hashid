@@ -37,6 +37,7 @@ class HashidBehavior extends Behavior {
 		'salt' => null, // Please provide your own salt via Configure
 		'field' => null, // To populate upon find() and save(), false to deactivate
 		'recursive' => false, // Also transform nested entities
+		'debug' => null, // Auto-detect
 		'findFirst' => false, // Either true or 'first' or 'firstOrFail'
 		'implementedFinders' => [
 			'hashed' => 'findHashed',
@@ -60,6 +61,13 @@ class HashidBehavior extends Behavior {
 
 		$this->_table = $table;
 		$this->_primaryKey = $table->primaryKey();
+
+		if ($this->_config['salt'] === true) {
+			$this->_config['salt'] = Configure::read('Security.salt');
+		}
+		if ($this->_config['debug'] === null) {
+			$this->_config['debug'] = Configure::read('debug');
+		}
 		if ($this->_config['field'] === null) {
 			$this->_config['field'] = $this->_primaryKey;
 		}
@@ -207,7 +215,12 @@ class HashidBehavior extends Behavior {
 	 * @return string
 	 */
 	public function encodeId($id) {
-		return $this->getHasher()->encode($id);
+		$hashid = $this->getHasher()->encode($id);
+
+		if ($this->_config['debug']) {
+			$hashid .= '-' . $id;
+		}
+		return $hashid;
 	}
 
 	/**
@@ -215,6 +228,10 @@ class HashidBehavior extends Behavior {
 	 * @return int
 	 */
 	public function decodeHashid($hashid) {
+		if ($this->_config['debug']) {
+			$hashid = substr($hashid, 0, strpos($hashid, '-'));
+		}
+
 		$ids = $this->getHasher()->decode($hashid);
 		return array_shift($ids);
 	}

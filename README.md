@@ -1,4 +1,4 @@
-# Hashid plugin for CakePHP
+# Hashid Plugin for CakePHP
 [![Build Status](https://api.travis-ci.org/dereuromark/cakephp-hashid.svg)](https://travis-ci.org/dereuromark/cakephp-hashid)
 [![Coverage Status](https://coveralls.io/repos/dereuromark/cakephp-hashid/badge.svg)](https://coveralls.io/r/dereuromark/cakephp-hashid)
 [![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)](https://php.net/)
@@ -6,9 +6,9 @@
 [![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-hashid/d/total.svg)](https://packagist.org/packages/dereuromark/cakephp-hashid)
 [![Coding Standards](https://img.shields.io/badge/cs-PSR--2--R-yellow.svg)](https://github.com/php-fig-rectified/fig-rectified-standards)
 
-A CakePHP 3.x Plugin to
+A CakePHP 3.x plugin to
 - easily use [hashids](https://github.com/ivanakimov/hashids.php) for your database table lookups
-- cloak the actual numeric id behind the record (assuming you use a non public salt) for URLs and alike
+- cloak the actual numeric primary key behind the record (assuming you use a non public salt) for URLs, APIs and alike
 
 Why not UUIDS?
 - UUIDs can be up to 200x slower with growing DB tables, complex or heavy joins and especially with CakePHP default char(36). But even with the recommended binary(16) it would not be ideal.
@@ -56,6 +56,7 @@ In our ctp file we can now keep all links as they were before:
 echo $this->Html->link(['action' => 'view', $user->id]);
 ```
 URL `/users/view/1` becomes `/users/view/jR`.
+And in debug mode (on your local computer probably) `/users/view/1` becomes `/users/view/jR-1`.
 
 In our UsersController, we now check with this hashid instead behind the scenes:
 ```php
@@ -108,21 +109,40 @@ $this->Users->encode($user);
 $hid = $user->hid;
 ```
 
-## Additional configuration
+## Helper Usage
+If you stick to the non-field way and you want to rather encode on demand in your view, you can use the helper to encode your IDs:
+```php
+// You must load the helper before
+$this->loadHelper('Hashid.Hashid', $optionalConfigArray);
+
+// In our ctp file we can now link to the hashed version
+$hashid = $this->Hashid->encodeId($user->id);
+echo $this->Html->link(['action' => 'view', $hashid]);
+```
+
+## Additional Configuration
 You can provide global configs via Configure and your own `app.php`:
 ```php
 'Hashid' => [
 	'salt' => 'Your own salt' // This is important
 ],
 ```
-If you do not provide a salt it is very easy to retreive the original numeric id from your hashid.
+It is recommended to keep `'salt'` to `true` - this way it uses your current Configure salt.
+But you can also set it to any custom string.
+If you do not provide a salt it is very easy to retrieve the original numeric id from your hashid.
 
 Further config options are:
-- field: Field name to populate with hashids upon save() and find(), defaults to `null` (= primary key)
+- debug: Defaults to current Configure value, in debug mode it will append the numeric id (`jR-1`) for easier debugging.
+- field: Field name to populate with hashids upon save() and find(), defaults to `null` (= primary key).
 - recursive: If you want also associated fetched entities' ids hashid'd, defaults to `false`.
 - findFirst: Set to true if you want each find('hashed') to return the `->first()` result, or to `firstOrFail` to fail if none can be found. Defaults to `null` (= disabled).
 
-## Security notice
+## SEO Notice
+If you use this for building your URLS and if those are indexed (no `noindex` meta tag), you should be careful about changing the salt in production.
+Changing the salt changes the hashids generated and thus also the URL. In that case you get 404s for the *old* URLs, often times losing
+traffic and SEO juice. You would want to store all old hashids together with their ids in a table for a 301 redirect lookup.
+
+## Security Notice
 
 > Do you have a question or comment that involves "security" and "hashids" in the same sentence? Don't use Hashids.
 

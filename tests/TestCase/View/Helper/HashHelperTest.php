@@ -60,6 +60,14 @@ class HashidHelperTest extends TestCase {
 
 		$newId = $this->Hashid->decodeHashid($hashid);
 		$this->assertSame($id, $newId);
+
+		$id = PHP_INT_MAX;
+
+		$hashid = $this->Hashid->encodeId($id);
+		$this->assertTrue(strlen($hashid) > 6);
+
+		$newId = $this->Hashid->decodeHashid($hashid);
+		$this->assertSame($id, $newId);
 	}
 
 	/**

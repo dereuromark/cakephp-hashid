@@ -209,9 +209,13 @@ class HashidBehaviorTest extends TestCase {
 
 		$address = $this->Addresses->find()->where(['city' => 'NoHashId'])->first();
 		$this->assertSame($hashid, $address->id);
+	}
 
-		// hashid is k5
-		// Only failing test
+	/**
+	 * @return void
+	 */
+	public function testGet() {
+		$hashid = 'jR';
 		$address = $this->Addresses->get($hashid);
 		$this->assertSame($hashid, $address->id);
 	}

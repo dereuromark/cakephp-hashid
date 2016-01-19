@@ -96,7 +96,7 @@ class HashidBehavior extends Behavior {
 		if ($field === $idField) {
 			$query->traverseExpressions(function ($expression) {
 				if (method_exists($expression, 'getField')
-					&& $expression->getField() === $this->_primaryKey
+					&& ($expression->getField() === $this->_primaryKey || $expression->getField() === $this->_table->alias() . '.' . $this->_primaryKey)
 				) {
 					$expression->setValue($this->decodeHashid($expression->getValue()));
 				}

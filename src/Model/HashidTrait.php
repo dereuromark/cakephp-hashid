@@ -2,6 +2,7 @@
 
 namespace Hashid\Model;
 
+use Cake\Datasource\Exception\RecordNotFoundException;
 use Hashids\Hashids;
 
 /**
@@ -20,7 +21,7 @@ trait HashidTrait {
 	 */
 	public function encodeId($id) {
 		if ($id < 1 || !is_int($id)) {
-			throw new \Exception('Invalid integer, the id must be >= 1.');
+			throw new RecordNotFoundException('Invalid integer, the id must be >= 1.');
 		}
 
 		$hashid = $this->_getHasher()->encode($id);

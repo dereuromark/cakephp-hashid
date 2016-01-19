@@ -5,22 +5,20 @@ namespace Hashid\View\Helper;
 use Cake\Core\Configure;
 use Cake\View\Helper;
 use Cake\View\View;
-use Hashids\Hashids;
+use Hashid\Model\HashidTrait;
 
 class HashidHelper extends Helper {
 
+	use HashidTrait;
+
 	/**
-	 * @var array
+	 * @var \Hashids\Hashids
 	 */
+	protected $_hashids;
+
 	protected $_defaultConfig = [
-		'salt' => true, // True for Security.salt Configure value or provide your own salt string
-		'field' => null, // To populate upon find() and save()
-		'tableField' => false, // To have a dedicated field in the table
+		'salt' => null, // Please provide your own salt via Configure
 		'debug' => null, // Auto-detect
-		'first' => false, // Either true or 'first' or 'firstOrFail'
-		'implementedFinders' => [
-			'hashed' => 'findHashed',
-		]
 	];
 
 	/**
@@ -39,43 +37,6 @@ class HashidHelper extends Helper {
 		if ($this->_config['debug'] === null) {
 			$this->_config['debug'] = Configure::read('debug');
 		}
-	}
-
-	/**
-	 * @param int $id
-	 * @return string
-	 */
-	public function encodeId($id) {
-		$hashid = $this->getHasher()->encode($id);
-		if ($this->_config['debug']) {
-			$hashid .= '-' . $id;
-		}
-		return $hashid;
-	}
-
-	/**
-	 * @param string $hashid
-	 * @return int
-	 */
-	public function decodeHashid($hashid) {
-		if ($this->_config['debug']) {
-			$hashid = substr($hashid, 0, strpos($hashid, '-'));
-		}
-
-		$ids = $this->getHasher()->decode($hashid);
-		return array_shift($ids);
-	}
-
-	/**
-	 * @return \Hashids\Hashids
-	 */
-	protected function getHasher() {
-		if (isset($this->hashids)) {
-			return $this->hashids;
-		}
-		$this->hashids = new Hashids($this->_config['salt']);
-
-		return $this->hashids;
 	}
 
 }

@@ -8,13 +8,15 @@ use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\Event\Event;
 use \ArrayObject;
-use Hashids\Hashids;
+use Hashid\Model\HashidTrait;
 
 /**
  * @author Mark Scherer
  * @licence MIT
  */
 class HashidBehavior extends Behavior {
+
+	use HashidTrait;
 
 	const HID = 'hid';
 
@@ -156,18 +158,6 @@ class HashidBehavior extends Behavior {
 	}
 
 	/**
-	 * @return \Hashids\Hashids
-	 */
-	protected function getHasher() {
-		if (isset($this->_hashids)) {
-			return $this->_hashids;
-		}
-		$this->_hashids = new Hashids($this->_config['salt']);
-
-		return $this->_hashids;
-	}
-
-	/**
 	 * Custom finder for hashids field.
 	 *
 	 * Options:
@@ -208,32 +198,6 @@ class HashidBehavior extends Behavior {
 			return $query;
 		}
 		return $query->first();
-	}
-
-	/**
-	 * @param int $id
-	 * @return string
-	 */
-	public function encodeId($id) {
-		$hashid = $this->getHasher()->encode($id);
-
-		if ($this->_config['debug']) {
-			$hashid .= '-' . $id;
-		}
-		return $hashid;
-	}
-
-	/**
-	 * @param string $hashid
-	 * @return int
-	 */
-	public function decodeHashid($hashid) {
-		if ($this->_config['debug']) {
-			$hashid = substr($hashid, 0, strpos($hashid, '-'));
-		}
-
-		$ids = $this->getHasher()->decode($hashid);
-		return array_shift($ids);
 	}
 
 }

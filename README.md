@@ -23,6 +23,9 @@ Why hashids:
 
 Bottom line: Use hashids when you do not want to expose your database ids to the user.
 
+## Demo
+See http://sandbox3.dereuromark.de/sandbox/hashids/pagination
+
 ## Setup
 ```
 composer require dereuromark/cakephp-hashid

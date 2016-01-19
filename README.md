@@ -15,6 +15,8 @@ Exposes [hashids](https://github.com/ivanakimov/hashids.php) as drop-in replacem
 ### Why hashids:
 - They are super short, especially for the URL
 - They are lightweight and [fast](https://github.com/ivanakimov/hashids.php#speed). They work on the fly and require no table fields, no code changes. No overhead involved except for enabling the behavior.
+- You do not lose sorting capability as with UUIDs.
+- You can use hashids if you do not want to expose your database ids to the user - while not compromising speed - as a balance trait-off.
 
 ### Why not UUIDS?
 - UUIDs can be up to 200x slower with growing DB tables, complex or heavy joins and especially with CakePHP default char(36). But even with the recommended binary(16) it would not be ideal.
@@ -22,8 +24,6 @@ Exposes [hashids](https://github.com/ivanakimov/hashids.php) as drop-in replacem
 at the same time (same datetime for created).
 - UUIDS are often used to just cloak the numeric primary keys visibility of how much gets inserted over time. But that is not what they should be used for.
 If you want to synch data across DBs, then they are useful. But they should not be abused for other things.
-
-Bottom line: Use hashids when you do not want to expose your database ids to the user.
 
 ## Demo
 See http://sandbox3.dereuromark.de/sandbox/hashids/pagination

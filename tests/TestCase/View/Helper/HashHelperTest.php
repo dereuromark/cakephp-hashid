@@ -80,7 +80,7 @@ class HashidHelperTest extends TestCase {
 		$id = 1;
 
 		$hashid = $this->Hashid->encodeId($id);
-		$this->assertSame('XE', $hashid);
+		$this->assertSame('3B', $hashid);
 
 		$newId = $this->Hashid->decodeHashid($hashid);
 		$this->assertSame($id, $newId);

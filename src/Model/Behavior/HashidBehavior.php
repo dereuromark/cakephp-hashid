@@ -65,7 +65,7 @@ class HashidBehavior extends Behavior {
 		$this->_primaryKey = $table->primaryKey();
 
 		if ($this->_config['salt'] === null) {
-			$this->_config['salt'] = Configure::read('Security.salt');
+			$this->_config['salt'] = Configure::read('Security.salt') ? sha1(Configure::read('Security.salt')) : null;
 		}
 		if ($this->_config['debug'] === null) {
 			$this->_config['debug'] = Configure::read('debug');

@@ -95,15 +95,17 @@ echo $this->Html->link(['action' => 'view', $user->hashid]);
 ## Manual usage
 Of course you can also encode and decode manually:
 ```php
+$this->addBehavior('Hashid.Hashid', ['field' => 'hid']);
+
 // 1 => 'jR'
-$hashid = $this->Users->encodeId($id);
+$hid = $this->Users->encodeId($id);
 
 // 'jR' => 1
-$id = $this->Users->decodeHashid($hashid);
+$id = $this->Users->decodeHashid($hid);
 
 // Or if you got an entity
 $this->Users->encode($user);
-$hashid = $user->hashid;
+$hid = $user->hid;
 ```
 
 ## Additional configuration

@@ -10,7 +10,7 @@ Exposes [hashids](https://github.com/ivanakimov/hashids.php) as drop-in replacem
 
 ## A CakePHP 3.x plugin to
 - cloak the actual numeric primary key behind the record (assuming you use a non public salt) for URLs, APIs and alike
-- build short unique IDs (`2.147.483.647` becomes `lXQAALg` for example, so `length <= 7` for the hashid)
+- build short unique IDs (Even PHP_INT_MAX `2.147.483.647` becomes `lXQAALg` for example, so `length <= 7` for the hashid)
 
 ### Why hashids:
 - They are super short, especially for the URL

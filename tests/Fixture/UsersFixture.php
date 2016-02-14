@@ -31,4 +31,5 @@ class UsersFixture extends TestFixture {
 			'username' => 'Mrs',
 		],
 	];
+
 }

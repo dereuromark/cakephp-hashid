@@ -32,4 +32,5 @@ class TagsFixture extends TestFixture {
 			'name' => 'Another',
 		],
 	];
+
 }

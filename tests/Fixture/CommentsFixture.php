@@ -5,7 +5,6 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 /**
  * AddressFixture
- *
  */
 class CommentsFixture extends TestFixture {
 
@@ -37,4 +36,5 @@ class CommentsFixture extends TestFixture {
 			'comment' => 'Def',
 		],
 	];
+
 }

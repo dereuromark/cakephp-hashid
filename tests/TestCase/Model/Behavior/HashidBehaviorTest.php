@@ -20,7 +20,15 @@ class HashidBehaviorTest extends TestCase {
 	 * @var \Cake\ORM\Table;
 	 */
 	public $Addresses;
+
+	/**
+	 * @var \Cake\ORM\Table;
+	 */
 	public $Users;
+
+	/**
+	 * @var \Cake\ORM\Table;
+	 */
 	public $Comments;
 
 	/**

@@ -5,7 +5,6 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 /**
  * AddressFixture
- *
  */
 class AddressesFixture extends TestFixture {
 
@@ -50,4 +49,5 @@ class AddressesFixture extends TestFixture {
 			'modified' => '2011-10-07 17:42:27',
 		],
 	];
+
 }

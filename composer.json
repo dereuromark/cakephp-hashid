@@ -30,5 +30,8 @@
 	},
 	"support": {
 		"source": "https://github.com/dereuromark/cakephp-hashids"
+	},
+	"require-dev": {
+		"fig-r/psr2r-sniffer": "dev-master"
 	}
 }

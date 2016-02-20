@@ -2,10 +2,10 @@
 namespace Hashid\Test\Model\Behavior;
 
 use Cake\Core\Configure;
-use Cake\TestSuite\TestCase;
 use Cake\ORM\TableRegistry;
-use Hashid\Model\Behavior\HashidBehavior;
+use Cake\TestSuite\TestCase;
 use Hashids\Hashids;
+use Hashid\Model\Behavior\HashidBehavior;
 
 class HashidBehaviorTest extends TestCase {
 

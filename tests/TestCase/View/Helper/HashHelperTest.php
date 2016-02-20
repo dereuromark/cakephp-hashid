@@ -1,10 +1,10 @@
 <?php
 namespace Hashid\Test\TestCase\View\Helper;
 
-use Hashid\View\Helper\HashidHelper;
 use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
+use Hashid\View\Helper\HashidHelper;
 
 /**
  *

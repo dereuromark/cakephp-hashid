@@ -26,7 +26,7 @@ at the same time (same datetime for created).
 If you want to synch data across DBs, then they are useful. But they should not be abused for other things.
 
 ## Demo
-See http://sandbox3.dereuromark.de/sandbox/hashids/pagination
+See http://sandbox3.dereuromark.de/sandbox/hashids
 
 ## Setup
 ```

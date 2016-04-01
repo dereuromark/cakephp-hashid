@@ -16,6 +16,9 @@ class HashidHelper extends Helper {
 	 */
 	protected $_hashids;
 
+	/**
+	 * @var array
+	 */
 	protected $_defaultConfig = [
 		'salt' => null, // Please provide your own salt via Configure
 		'debug' => null, // Auto-detect

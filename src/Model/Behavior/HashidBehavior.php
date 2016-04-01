@@ -35,6 +35,9 @@ class HashidBehavior extends Behavior {
 	 */
 	protected $_primaryKey;
 
+	/**
+	 * @var array
+	 */
 	protected $_defaultConfig = [
 		'salt' => null, // Please provide your own salt via Configure key 'Security.salt'
 		'field' => null, // To populate upon find() and save(), false to deactivate
@@ -188,8 +191,8 @@ class HashidBehavior extends Behavior {
 			});
 		});
 
-		if (!empty($options[HashidBehavior::HID])) {
-			$id = $this->decodeHashid($options[HashidBehavior::HID]);
+		if (!empty($options[self::HID])) {
+			$id = $this->decodeHashid($options[self::HID]);
 			$query->where([$idField => $id]);
 		}
 

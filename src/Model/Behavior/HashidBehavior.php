@@ -3,9 +3,9 @@ namespace Hashid\Model\Behavior;
 
 use ArrayObject;
 use Cake\Core\Configure;
+use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
-use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Hashid\Model\HashidTrait;
@@ -122,11 +122,24 @@ class HashidBehavior extends Behavior {
 
 	/**
 	 * @param \Cake\Event\Event $event The beforeSave event that was fired
-	 * @param \Cake\ORM\Entity $entity The entity that is going to be saved
+	 * @param \Cake\Datasource\EntityInterface $entity The entity that is going to be saved
+	 * @return void
+	 */
+	public function beforeSave(Event $event, EntityInterface $entity) {
+		if ($entity->isNew()) {
+			return;
+		}
+
+		$this->decode($entity);
+	}
+
+	/**
+	 * @param \Cake\Event\Event $event The beforeSave event that was fired
+	 * @param \Cake\Datasource\EntityInterface $entity The entity that is going to be saved
 	 * @param \ArrayObject $options the options passed to the save method
 	 * @return void
 	 */
-	public function afterSave(Event $event, Entity $entity, ArrayObject $options) {
+	public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options) {
 		if (!$entity->isNew()) {
 			return;
 		}
@@ -137,10 +150,36 @@ class HashidBehavior extends Behavior {
 	/**
 	 * Sets up hashid for model.
 	 *
-	 * @param \Cake\ORM\Entity $entity The entity that is going to be saved
+	 * @param \Cake\Datasource\EntityInterface $entity The entity that is going to be saved
 	 * @return bool True if save should proceed, false otherwise
 	 */
-	public function encode(Entity $entity) {
+	public function decode(EntityInterface $entity) {
+		$idField = $this->_primaryKey;
+		$hashid = $entity->get($idField);
+		if (!$hashid) {
+			return false;
+		}
+
+		$field = $this->_config['field'];
+		if (!$field) {
+			return false;
+		}
+
+		$id = $this->decodeHashid($hashid);
+
+		$entity->set($field, $id);
+		$entity->dirty($field, false);
+
+		return true;
+	}
+
+	/**
+	 * Sets up hashid for model.
+	 *
+	 * @param \Cake\Datasource\EntityInterface $entity The entity that is going to be saved
+	 * @return bool True if save should proceed, false otherwise
+	 */
+	public function encode(EntityInterface $entity) {
 		$idField = $this->_primaryKey;
 		$id = $entity->get($idField);
 		if (!$id) {

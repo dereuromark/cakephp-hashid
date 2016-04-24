@@ -86,7 +86,7 @@ class HashidBehavior extends Behavior {
 	 * @return void
 	 */
 	public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary) {
-		if (!$primary) {
+		if (!$primary && !$this->_config['recursive']) {
 			return;
 		}
 

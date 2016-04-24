@@ -143,11 +143,10 @@ Now you got the `encodeId()` and `decodeHashid()` methods from above at your dis
 You can provide global configs via Configure and your own `app.php`:
 ```php
 'Hashid' => [
-	'salt' => 'Your own salt' // This is important
+	'salt' => 'Your own salt string' // This is important
 ],
 ```
-It is recommended to keep `'salt'` to `true` - this way it uses your current Configure salt.
-But you can also set it to any custom string.
+You can set `'salt'` to `true` - this way it uses your current Configure salt (not recommended).
 If you do not provide a salt it is very easy to retrieve the original numeric id from your hashid.
 
 Further config options are:

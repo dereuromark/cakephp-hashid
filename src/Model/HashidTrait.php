@@ -37,6 +37,12 @@ trait HashidTrait {
 	 * @return int
 	 */
 	public function decodeHashid($hashid) {
+		if (is_array($hashid)) {
+			foreach ($hashid as $k => $v) {
+				$hashid[$k] = $this->decodeHashid($v);
+			}
+			return $hashid;
+		}
 		if ($this->_config['debug']) {
 			$hashid = substr($hashid, 0, strpos($hashid, '-'));
 		}

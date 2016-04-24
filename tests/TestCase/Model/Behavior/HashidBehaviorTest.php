@@ -126,6 +126,30 @@ class HashidBehaviorTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testSaveDebugModeIdField() {
+		$this->Addresses->behaviors()->Hashid->config('debug', true);
+
+		$data = [
+			'city' => 'Foo'
+		];
+		$address = $this->Addresses->newEntity($data);
+		$res = $this->Addresses->save($address);
+		$this->assertTrue((bool)$res);
+
+		$this->assertSame('l5-3', $address->id);
+
+		$address = $this->Addresses->get('l5-3');
+		$address->city = 'Foo Foo';
+		$res = $this->Addresses->save($address);
+		$this->assertTrue((bool)$res);
+
+		$address = $this->Addresses->get('l5-3');
+		$this->assertSame('Foo Foo', $address->city);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testFindDebugMode() {
 		Configure::write('debug', true);
 		$this->Addresses->removeBehavior('Hashid');

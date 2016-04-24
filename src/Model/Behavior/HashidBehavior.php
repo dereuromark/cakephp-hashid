@@ -39,7 +39,7 @@ class HashidBehavior extends Behavior {
 	 * @var array
 	 */
 	protected $_defaultConfig = [
-		'salt' => null, // Please provide your own salt via Configure key 'Security.salt'
+		'salt' => null, // Please provide your own salt via Configure key 'Hashid.salt'
 		'field' => null, // To populate upon find() and save(), false to deactivate
 		'debug' => null, // Auto-detect from Configure::read('debug')
 		'recursive' => false, // Also transform nested entities

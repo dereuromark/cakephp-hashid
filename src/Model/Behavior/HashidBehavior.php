@@ -140,10 +140,6 @@ class HashidBehavior extends Behavior {
 	 * @return void
 	 */
 	public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options) {
-		if (!$entity->isNew()) {
-			return;
-		}
-
 		$this->encode($entity);
 	}
 

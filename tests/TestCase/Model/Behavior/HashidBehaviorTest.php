@@ -145,6 +145,14 @@ class HashidBehaviorTest extends TestCase {
 
 		$address = $this->Addresses->get('l5-3');
 		$this->assertSame('Foo Foo', $address->city);
+
+		$address->city = 'Foo Bar';
+		$res = $this->Addresses->save($address);
+		$this->assertTrue((bool)$res);
+
+		$address->city = 'Foo Baz';
+		$res = $this->Addresses->save($address);
+		$this->assertTrue((bool)$res);
 	}
 
 	/**

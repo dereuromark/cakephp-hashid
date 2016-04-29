@@ -144,6 +144,16 @@ class HashidBehavior extends Behavior {
 	}
 
 	/**
+	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Datasource\EntityInterface $entity
+	 * @param \ArrayObject $options
+	 * @return void
+	 */
+	public function beforeDelete(Event $event, EntityInterface $entity, ArrayObject $options) {
+		$this->decode($entity);
+	}
+
+	/**
 	 * Sets up hashid for model.
 	 *
 	 * @param \Cake\Datasource\EntityInterface $entity The entity that is going to be saved

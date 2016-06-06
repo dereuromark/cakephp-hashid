@@ -125,6 +125,20 @@ $this->Users->encode($user);
 $hid = $user->hid;
 ```
 
+### updateAll()/deleteAll()
+When using atomatic operations, you will have to manually encode/decode the ids,
+because here no behavior callbacks are currently possible to intercept.
+
+My tip would be to dynamically wrap each of those method calls in the model layer,
+so if you at anytime remove or modify the behavior, the code will still work:
+```
+$id = $yourEntity->id;
+if ($this->hasBehavior('Hashid')) {
+	$id = $this->decodeHashid($id);
+}
+return $this->updateAll([...], ['id' => $id]);
+```
+
 ## Trait Usage
 The trait is the key component holding the actual de- and encoding functionality.
 You can put it on top of any class that needs hashid support:

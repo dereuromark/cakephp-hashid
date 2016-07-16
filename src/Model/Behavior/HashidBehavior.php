@@ -95,8 +95,6 @@ class HashidBehavior extends Behavior {
 			return;
 		}
 
-		$query->find('hashed');
-
 		$idField = $this->_primaryKey;
 		if ($field === $idField) {
 			$query->traverseExpressions(function ($expression) {

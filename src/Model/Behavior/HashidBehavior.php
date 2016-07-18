@@ -231,7 +231,9 @@ class HashidBehavior extends Behavior {
 				}
 
 				$row[$field] = $this->encodeId($row[$idField]);
-				$row->dirty($field, false);
+				if($row instanceof Entity){
+					$row->dirty($field, false);
+				}
 				return $row;
 			});
 		});

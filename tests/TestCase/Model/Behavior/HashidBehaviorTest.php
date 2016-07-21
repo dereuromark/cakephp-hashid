@@ -109,6 +109,28 @@ class HashidBehaviorTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testFindList() {
+		$this->Addresses->behaviors()->Hashid->config('field', 'hashid');
+		$this->Addresses->displayField('city');
+		$this->Addresses->primaryKey('id');
+
+		$data = [
+			'city' => 'Foo'
+		];
+		$address = $this->Addresses->newEntity($data);
+		$res = $this->Addresses->save($address);
+
+		$id = $address->id;
+		$hasher = new Hashids();
+		$hashid = $hasher->encode($id);
+
+		$addressList = $this->Addresses->find('list')->toArray();
+		$this->assertSame('Foo', $addressList[$hashid]);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testSaveDebugMode() {
 		$this->Addresses->behaviors()->Hashid->config('field', 'hashid');
 		$this->Addresses->behaviors()->Hashid->config('debug', true);

@@ -2,6 +2,7 @@
 namespace Hashid\Model\Behavior;
 
 use ArrayObject;
+use Cake\Collection\Collection;
 use Cake\Core\Configure;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
@@ -225,17 +226,21 @@ class HashidBehavior extends Behavior {
 		$idField = $this->_primaryKey;
 
 		$query->formatResults(function ($results) use ($field, $idField) {
-			return $results->map(function ($row) use ($field, $idField) {
-				if (empty($row[$idField])) {
-					return $row;
-				}
+			$newResult = [];
 
-				$row[$field] = $this->encodeId($row[$idField]);
-				if ($row instanceof Entity) {
-					$row->dirty($field, false);
+			$results->each(function ($row, $key) use ($field, $idField, &$newResult) {
+				if (!empty($row[$idField])) {
+					$row[$field] = $this->encodeId($row[$idField]);
+					if ($row instanceof Entity) {
+						$row->dirty($field, false);
+					}
+					$newResult[] = $row;
+				} elseif (is_string($row)) {
+					$newResult[$this->encodeId($key)] = $row;
 				}
-				return $row;
 			});
+
+			return new Collection($newResult);
 		});
 
 		if (!empty($options[self::HID])) {

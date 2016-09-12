@@ -243,8 +243,8 @@ class HashidBehavior extends Behavior {
 			return new Collection($newResult);
 		});
 
-		if (!empty($options[self::HID])) {
-			$id = $this->decodeHashid($options[self::HID]);
+		if (!empty($options[static::HID])) {
+			$id = $this->decodeHashid($options[static::HID]);
 			$query->where([$idField => $id]);
 		}
 

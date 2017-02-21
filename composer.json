@@ -17,6 +17,9 @@
 		"cakephp/cakephp": "^3.0",
 		"hashids/hashids": "^1.0 || ^2.0"
 	},
+	"require-dev": {
+		"fig-r/psr2r-sniffer": "dev-master"
+	},
 	"autoload": {
 		"psr-4": {
 			"Hashid\\": "src"
@@ -31,7 +34,10 @@
 	"support": {
 		"source": "https://github.com/dereuromark/cakephp-hashids"
 	},
-	"require-dev": {
-		"fig-r/psr2r-sniffer": "dev-master"
+	"scripts": {
+		"setup": "[ ! -f phpunit.phar ] && wget https://phar.phpunit.de/phpunit-5.7.phar && mv phpunit-5.7.phar phpunit.phar",
+		"test": "php phpunit.phar",
+		"cs-check": "phpcs -p --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=/cakephp-hashid/vendor/,/tmp/,/logs/ --extensions=php ./",
+		"cs-fix": "phpcbf -f --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=/cakephp-hashid/vendor/,/tmp/,/logs/ --extensions=php ./"
 	}
 }

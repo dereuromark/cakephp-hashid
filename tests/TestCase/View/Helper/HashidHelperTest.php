@@ -33,7 +33,7 @@ class HashidHelperTest extends TestCase {
 			]
 		);
 
-		$this->request = $this->getMock('Cake\Network\Request', []);
+		$this->request = $this->getMockBuilder('Cake\Network\Request', [])->getMock();
 		$this->view = new View($this->request);
 		$this->Hashid = new HashidHelper($this->view);
 	}

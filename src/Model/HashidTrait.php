@@ -3,6 +3,7 @@
 namespace Hashid\Model;
 
 use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Utility\Hash;
 use Hashids\Hashids;
 
 /**
@@ -58,7 +59,7 @@ trait HashidTrait {
 		if (isset($this->_hashids)) {
 			return $this->_hashids;
 		}
-		$this->_hashids = new Hashids($this->_config['salt']);
+		$this->_hashids = new Hashids($this->_config['salt'], Hash::get($this->_config, 'minHashLength', 0), Hash::get($this->_config, 'alphabet', 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'));
 
 		return $this->_hashids;
 	}

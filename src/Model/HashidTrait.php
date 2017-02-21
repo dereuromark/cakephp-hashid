@@ -12,6 +12,8 @@ use Hashids\Hashids;
  * - $_defaultConfig field
  * - $_config field
  * - config() logic via InstanceConfigTrait
+ *
+ * @property array $_config
  */
 trait HashidTrait {
 
@@ -58,7 +60,12 @@ trait HashidTrait {
 		if (isset($this->_hashids)) {
 			return $this->_hashids;
 		}
-		$this->_hashids = new Hashids($this->_config['salt']);
+
+		if ($this->_config['alphabet']) {
+			$this->_hashids = new Hashids($this->_config['salt'], $this->_config['minHashLength'], $this->_config['alphabet']);
+		} else {
+			$this->_hashids = new Hashids($this->_config['salt'], $this->_config['minHashLength']);
+		}
 
 		return $this->_hashids;
 	}

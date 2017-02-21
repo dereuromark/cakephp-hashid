@@ -22,6 +22,8 @@ class HashidHelper extends Helper {
 	protected $_defaultConfig = [
 		'salt' => null, // Please provide your own salt via Configure
 		'debug' => null, // Auto-detect
+		'minHashLength' => 0, // You can overwrite the Hashid defaults
+		'alphabet' => null, // You can overwrite the Hashid defaults
 	];
 
 	/**

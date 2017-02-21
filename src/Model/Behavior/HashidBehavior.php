@@ -43,6 +43,8 @@ class HashidBehavior extends Behavior {
 		'salt' => null, // Please provide your own salt via Configure key 'Hashid.salt'
 		'field' => null, // To populate upon find() and save(), false to deactivate
 		'debug' => null, // Auto-detect from Configure::read('debug')
+		'minHashLength' => 0, // You can overwrite the Hashid defaults
+		'alphabet' => null, // You can overwrite the Hashid defaults
 		'recursive' => false, // Also transform nested entities
 		'findFirst' => false, // Either true or 'first' or 'firstOrFail'
 		'implementedFinders' => [

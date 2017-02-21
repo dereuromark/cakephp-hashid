@@ -1,9 +1,8 @@
 <?php
-namespace Hashid\Test\App\Config;
 
+use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
 
-Router::scope('/', function($routes) {
-	$routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'DashedRoute']);
-	$routes->connect('/:controller/:action/*', [], ['routeClass' => 'DashedRoute']);
+Router::scope('/', function(RouteBuilder $routes) {
+	$routes->fallbacks();
 });

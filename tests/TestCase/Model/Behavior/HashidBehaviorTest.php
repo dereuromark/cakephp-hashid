@@ -351,6 +351,22 @@ class HashidBehaviorTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testEncodeWithOptions() {
+		$this->Addresses->behaviors()->Hashid->config('field', 'hid');
+		$this->Addresses->behaviors()->Hashid->config('minHashLength', 20);
+		$this->Addresses->behaviors()->Hashid->config('alphabet', "efghxyz123456789");
+
+		$address = $this->Addresses->newEntity();
+		$address->id = 2;
+		$this->Addresses->encode($address);
+
+		$expected = '63249351yx14x2z68758';
+		$this->assertSame($expected, $address->hid);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testRecursive() {
 		$result = $this->Addresses->find()->contain([
 			$this->Users->alias(),

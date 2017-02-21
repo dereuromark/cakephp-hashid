@@ -354,7 +354,7 @@ class HashidBehaviorTest extends TestCase {
 	public function testEncodeWithOptions() {
 		$this->Addresses->behaviors()->Hashid->config('field', 'hid');
 		$this->Addresses->behaviors()->Hashid->config('minHashLength', 20);
-		$this->Addresses->behaviors()->Hashid->config('alphabet', "efghxyz123456789");
+		$this->Addresses->behaviors()->Hashid->config('alphabet', 'efghxyz123456789');
 
 		$address = $this->Addresses->newEntity();
 		$address->id = 2;

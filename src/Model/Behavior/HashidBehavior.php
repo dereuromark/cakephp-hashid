@@ -4,6 +4,7 @@ namespace Hashid\Model\Behavior;
 use ArrayObject;
 use Cake\Collection\Collection;
 use Cake\Core\Configure;
+use Cake\Database\ExpressionInterface;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
@@ -102,10 +103,11 @@ class HashidBehavior extends Behavior {
 
 		$idField = $this->_primaryKey;
 		if ($primary && $field === $idField) {
-			$query->traverseExpressions(function ($expression) {
+			$query->traverseExpressions(function (ExpressionInterface $expression) {
 				if (method_exists($expression, 'getField')
 					&& ($expression->getField() === $this->_primaryKey || $expression->getField() === $this->_table->alias() . '.' . $this->_primaryKey)
 				) {
+					/* @var \Cake\Database\Expression\Comparison $expression */
 					$expression->setValue($this->decodeHashid($expression->getValue()));
 				}
 				return $expression;
@@ -233,7 +235,7 @@ class HashidBehavior extends Behavior {
 			$results->each(function ($row, $key) use ($field, $idField, &$newResult) {
 				if (!empty($row[$idField])) {
 					$row[$field] = $this->encodeId($row[$idField]);
-					if ($row instanceof Entity) {
+					if ($row instanceof EntityInterface) {
 						$row->dirty($field, false);
 					}
 					$newResult[] = $row;

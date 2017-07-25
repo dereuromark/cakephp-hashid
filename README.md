@@ -1,5 +1,5 @@
 # Hashid Plugin for CakePHP
-[![Build Status](https://api.travis-ci.org/dereuromark/cakephp-hashid.svg)](https://travis-ci.org/dereuromark/cakephp-hashid)
+[![Build Status](https://api.travis-ci.org/dereuromark/cakephp-hashid.svg?branch=master)](https://travis-ci.org/dereuromark/cakephp-hashid)
 [![Coverage Status](https://coveralls.io/repos/dereuromark/cakephp-hashid/badge.svg)](https://coveralls.io/r/dereuromark/cakephp-hashid)
 [![Latest Stable Version](https://poser.pugx.org/dereuromark/cakephp-hashid/v/stable.svg)](https://packagist.org/packages/dereuromark/cakephp-hashid)
 [![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)](https://php.net/)

@@ -107,7 +107,7 @@ class HashidBehavior extends Behavior {
 				if (method_exists($expression, 'getField')
 					&& ($expression->getField() === $this->_primaryKey || $expression->getField() === $this->_table->alias() . '.' . $this->_primaryKey)
 				) {
-					/* @var \Cake\Database\Expression\Comparison $expression */
+					/** @var \Cake\Database\Expression\Comparison $expression */
 					$expression->setValue($this->decodeHashid($expression->getValue()));
 				}
 				return $expression;

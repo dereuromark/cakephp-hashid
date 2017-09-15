@@ -54,7 +54,7 @@ class HashidBehavior extends Behavior {
 		'implementedMethods' => [
 			'decode' => 'decode',
 			'encode' => 'encode',
-			'existsHashed' => 'existsHashed',
+			'exists' => 'existsHashed',
 		],
 	];
 

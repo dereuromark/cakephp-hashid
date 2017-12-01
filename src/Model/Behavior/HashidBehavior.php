@@ -241,6 +241,8 @@ class HashidBehavior extends Behavior {
 					$newResult[] = $row;
 				} elseif (is_string($row)) {
 					$newResult[$this->encodeId($key)] = $row;
+				} else {
+					$newResult[] = $row;
 				}
 			});
 

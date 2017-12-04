@@ -181,5 +181,3 @@ traffic and SEO juice. You would want to store all old hashids together with the
 
 This sentence on the hashids documentation says it all: This is to cloak the IDs, but it is not a real secure encryption algorithm.
 
-## License
-MIT

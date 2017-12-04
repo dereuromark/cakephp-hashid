@@ -392,4 +392,28 @@ class HashidBehaviorTest extends TestCase {
 		$this->assertSame($hashid, $result->user->id);
 	}
 
+	/**
+	 * testIsUniqueDomainRule method
+	 *
+	 * @return void
+	 */
+	public function testIsUniqueDomainRule() {
+		$data = [
+			'city' => 'Foo',
+		];
+
+		$address = $this->Addresses->newEntity($data);
+		$result = $this->Addresses->save($address);
+		$this->assertTrue((bool)$result);
+
+		$rules = $this->Addresses->rulesChecker();
+		$rules->add($rules->isUnique(['city']));
+
+		$address = $this->Addresses->newEntity($data);
+		$result = $this->Addresses->save($address);
+
+		$this->assertFalse((bool)$result);
+		$this->assertEquals(['_isUnique' => 'This value is already in use'], $address->errors('city'));
+	}
+
 }

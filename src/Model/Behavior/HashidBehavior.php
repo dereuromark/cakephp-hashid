@@ -50,7 +50,12 @@ class HashidBehavior extends Behavior {
 		'findFirst' => false, // Either true or 'first' or 'firstOrFail'
 		'implementedFinders' => [
 			'hashed' => 'findHashed',
-		]
+		],
+		'implementedMethods' => [
+			'decode' => 'decode',
+			'encode' => 'encode',
+			'exists' => 'existsHashed',
+		],
 	];
 
 	/**
@@ -259,6 +264,22 @@ class HashidBehavior extends Behavior {
 			return $query;
 		}
 		return $query->first();
+	}
+
+	/**
+	 * @param string|array|\Cake\Database\ExpressionInterface|callable $conditions
+	 *
+	 * @return bool
+	 */
+	public function existsHashed($conditions) {
+		return (bool)count(
+			$this->_table->find()
+				->select($this->_table->primaryKey())
+				->where($conditions)
+				->limit(1)
+				->enableHydration(false)
+				->toArray()
+		);
 	}
 
 }

@@ -243,7 +243,7 @@ class HashidBehaviorTest extends TestCase {
 		$this->Addresses->behaviors()->Hashid->config('field', false);
 
 		$address = $this->Addresses->find()->where(['city' => 'NoHashId'])->first();
-		$hashid = $this->Addresses->encodeId($address->id);
+		$hashid = $this->Addresses->behaviors()->Hashid->encodeId($address->id);
 
 		$this->Addresses->behaviors()->Hashid->config('field', 'hash');
 
@@ -263,7 +263,7 @@ class HashidBehaviorTest extends TestCase {
 		$this->Addresses->behaviors()->Hashid->config('field', 'id');
 
 		$address = $this->Addresses->find()->where(['city' => 'NoHashId'])->first();
-		$hashid = $this->Addresses->encodeId($address->getOriginal('id'));
+		$hashid = $this->Addresses->behaviors()->Hashid->encodeId($address->getOriginal('id'));
 		$this->assertSame($hashid, $address->id);
 
 		$address = $this->Addresses->patchEntity($address, ['postal_code' => '678']);

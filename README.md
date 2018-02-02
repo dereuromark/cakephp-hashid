@@ -39,4 +39,4 @@ bin/cake plugin load Hashid
 ```
 
 ## Usage
-See [docs](Documentation).
+See [Documentation](docs).

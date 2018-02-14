@@ -22,13 +22,13 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Hashid\\": "src"
+			"Hashid\\": "src/"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Hashid\\Test\\": "tests",
-			"Cake\\Test\\": "vendor/cakephp/cakephp/tests"
+			"Hashid\\Test\\": "tests/",
+			"Cake\\Test\\": "vendor/cakephp/cakephp/tests/"
 		}
 	},
 	"support": {

@@ -2,6 +2,7 @@
 namespace Hashid\Test\TestCase\View\Helper;
 
 use Cake\Core\Configure;
+use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
 use Hashid\View\Helper\HashidHelper;
@@ -15,6 +16,11 @@ class HashidHelperTest extends TestCase {
 	 * @var \Hashid\View\Helper\HashidHelper
 	 */
 	public $Hashid;
+
+	/**
+	 * @var \Cake\Http\ServerRequest
+	 */
+	protected $request;
 
 	/**
 	 * setUp method
@@ -33,7 +39,7 @@ class HashidHelperTest extends TestCase {
 			]
 		);
 
-		$this->request = $this->getMockBuilder('Cake\Network\Request', [])->getMock();
+		$this->request = $this->getMockBuilder(ServerRequest::class, [])->getMock();
 		$this->view = new View($this->request);
 		$this->Hashid = new HashidHelper($this->view);
 	}

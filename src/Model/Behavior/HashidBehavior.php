@@ -69,7 +69,7 @@ class HashidBehavior extends Behavior {
 		parent::__construct($table, $config + $defaults);
 
 		$this->_table = $table;
-		$this->_primaryKey = $table->primaryKey();
+		$this->_primaryKey = $table->getPrimaryKey();
 
 		if ($this->_config['salt'] === null) {
 			$this->_config['salt'] = Configure::read('Security.salt') ? sha1(Configure::read('Security.salt')) : null;
@@ -105,7 +105,7 @@ class HashidBehavior extends Behavior {
 		if ($primary && $field === $idField) {
 			$query->traverseExpressions(function (ExpressionInterface $expression) {
 				if (method_exists($expression, 'getField')
-					&& ($expression->getField() === $this->_primaryKey || $expression->getField() === $this->_table->alias() . '.' . $this->_primaryKey)
+					&& ($expression->getField() === $this->_primaryKey || $expression->getField() === $this->_table->getAlias() . '.' . $this->_primaryKey)
 				) {
 					/** @var \Cake\Database\Expression\Comparison $expression */
 					$expression->setValue($this->decodeHashid($expression->getValue()));
@@ -119,8 +119,8 @@ class HashidBehavior extends Behavior {
 		}
 
 		foreach ($this->_table->associations() as $association) {
-			if ($association->target()->hasBehavior('Hashid') && $association->finder() === 'all') {
-				$association->finder('hashed');
+			if ($association->getTarget()->hasBehavior('Hashid') && $association->getFinder() === 'all') {
+				$association->setFinder('hashed');
 			}
 		}
 	}
@@ -179,7 +179,7 @@ class HashidBehavior extends Behavior {
 		$id = $this->decodeHashid($hashid);
 
 		$entity->set($field, $id);
-		$entity->dirty($field, false);
+		$entity->setDirty($field, false);
 
 		return true;
 	}
@@ -205,7 +205,7 @@ class HashidBehavior extends Behavior {
 		$hashid = $this->encodeId($id);
 
 		$entity->set($field, $hashid);
-		$entity->dirty($field, false);
+		$entity->setDirty($field, false);
 
 		return true;
 	}
@@ -236,7 +236,7 @@ class HashidBehavior extends Behavior {
 				if (!empty($row[$idField])) {
 					$row[$field] = $this->encodeId($row[$idField]);
 					if ($row instanceof EntityInterface) {
-						$row->dirty($field, false);
+						$row->setDirty($field, false);
 					}
 					$newResult[] = $row;
 				} elseif (is_string($row)) {

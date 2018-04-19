@@ -90,7 +90,7 @@ class HashidBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testFind() {
-		$this->Addresses->behaviors()->Hashid->config('field', 'hashid');
+		$this->Addresses->behaviors()->Hashid->setConfig('field', 'hashid');
 
 		$data = [
 			'city' => 'Foo'
@@ -110,9 +110,9 @@ class HashidBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testFindList() {
-		$this->Addresses->behaviors()->Hashid->config('field', 'hashid');
-		$this->Addresses->displayField('city');
-		$this->Addresses->primaryKey('id');
+		$this->Addresses->behaviors()->Hashid->setConfig('field', 'hashid');
+		$this->Addresses->setDisplayField('city');
+		$this->Addresses->setPrimaryKey('id');
 
 		$data = [
 			'city' => 'Foo'
@@ -132,8 +132,8 @@ class HashidBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testSaveDebugMode() {
-		$this->Addresses->behaviors()->Hashid->config('field', 'hashid');
-		$this->Addresses->behaviors()->Hashid->config('debug', true);
+		$this->Addresses->behaviors()->Hashid->setConfig('field', 'hashid');
+		$this->Addresses->behaviors()->Hashid->setConfig('debug', true);
 
 		$data = [
 			'city' => 'Foo'
@@ -149,7 +149,7 @@ class HashidBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testSaveDebugModeIdField() {
-		$this->Addresses->behaviors()->Hashid->config('debug', true);
+		$this->Addresses->behaviors()->Hashid->setConfig('debug', true);
 
 		$data = [
 			'city' => 'Foo'
@@ -203,7 +203,7 @@ class HashidBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testSaveWithField() {
-		$this->Addresses->behaviors()->Hashid->config('field', 'hash');
+		$this->Addresses->behaviors()->Hashid->setConfig('field', 'hash');
 
 		$data = [
 			'city' => 'Foo'
@@ -222,7 +222,7 @@ class HashidBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testFindHashedWithField() {
-		$this->Addresses->behaviors()->Hashid->config('field', 'hash');
+		$this->Addresses->behaviors()->Hashid->setConfig('field', 'hash');
 
 		$data = [
 			'city' => 'Foo'
@@ -240,12 +240,12 @@ class HashidBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testFindWithFieldFalse() {
-		$this->Addresses->behaviors()->Hashid->config('field', false);
+		$this->Addresses->behaviors()->Hashid->setConfig('field', false);
 
 		$address = $this->Addresses->find()->where(['city' => 'NoHashId'])->first();
 		$hashid = $this->Addresses->encodeId($address->id);
 
-		$this->Addresses->behaviors()->Hashid->config('field', 'hash');
+		$this->Addresses->behaviors()->Hashid->setConfig('field', 'hash');
 
 		// Should also be included now
 		$address = $this->Addresses->find()->where(['city' => 'NoHashId'])->first();
@@ -260,7 +260,7 @@ class HashidBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testFindWithIdAsField() {
-		$this->Addresses->behaviors()->Hashid->config('field', 'id');
+		$this->Addresses->behaviors()->Hashid->setConfig('field', 'id');
 
 		$address = $this->Addresses->find()->where(['city' => 'NoHashId'])->first();
 		$hashid = $this->Addresses->encodeId($address->getOriginal('id'));
@@ -304,7 +304,7 @@ class HashidBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testFindFieldFalse() {
-		$this->Addresses->behaviors()->Hashid->config('field', false);
+		$this->Addresses->behaviors()->Hashid->setConfig('field', false);
 
 		$address = $this->Addresses->find()->where(['id' => 1])->firstOrFail();
 		$this->assertTrue((bool)$address);
@@ -322,8 +322,8 @@ class HashidBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testFindHashedWithFieldFirst() {
-		$this->Addresses->behaviors()->Hashid->config('field', 'hash');
-		$this->Addresses->behaviors()->Hashid->config('findFirst', true);
+		$this->Addresses->behaviors()->Hashid->setConfig('field', 'hash');
+		$this->Addresses->behaviors()->Hashid->setConfig('findFirst', true);
 
 		$hashid = 'k5';
 		$address = $this->Addresses->find('hashed', [HashidBehavior::HID => $hashid]);
@@ -334,7 +334,7 @@ class HashidBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testEncode() {
-		$this->Addresses->behaviors()->Hashid->config('field', 'hid');
+		$this->Addresses->behaviors()->Hashid->setConfig('field', 'hid');
 
 		$address = $this->Addresses->newEntity();
 		$this->Addresses->encode($address);
@@ -352,9 +352,9 @@ class HashidBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testEncodeWithOptions() {
-		$this->Addresses->behaviors()->Hashid->config('field', 'hid');
-		$this->Addresses->behaviors()->Hashid->config('minHashLength', 20);
-		$this->Addresses->behaviors()->Hashid->config('alphabet', 'efghxyz123456789');
+		$this->Addresses->behaviors()->Hashid->setConfig('field', 'hid');
+		$this->Addresses->behaviors()->Hashid->setConfig('minHashLength', 20);
+		$this->Addresses->behaviors()->Hashid->setConfig('alphabet', 'efghxyz123456789');
 
 		$address = $this->Addresses->newEntity();
 		$address->id = 2;
@@ -369,8 +369,8 @@ class HashidBehaviorTest extends TestCase {
 	 */
 	public function testRecursive() {
 		$result = $this->Addresses->find()->contain([
-			$this->Users->alias(),
-			$this->Comments->alias(),
+			$this->Users->getAlias(),
+			$this->Comments->getAlias(),
 		])->first();
 
 		$hashid = 'jR';
@@ -379,11 +379,11 @@ class HashidBehaviorTest extends TestCase {
 		$this->assertSame(1, $result->comments[0]->id);
 		$this->assertSame(1, $result->user->id);
 
-		$this->Addresses->behaviors()->Hashid->config('recursive', true);
+		$this->Addresses->behaviors()->Hashid->setConfig('recursive', true);
 
 		$result = $this->Addresses->find()->contain([
-			$this->Users->alias(),
-			$this->Comments->alias(),
+			$this->Users->getAlias(),
+			$this->Comments->getAlias(),
 		])->first();
 
 		$hashid = 'jR';
@@ -413,7 +413,12 @@ class HashidBehaviorTest extends TestCase {
 		$result = $this->Addresses->save($address);
 
 		$this->assertFalse((bool)$result);
-		$this->assertEquals(['_isUnique' => 'This value is already in use'], $address->errors('city'));
+		$expected = [
+			'city' => [
+				'_isUnique' => 'This value is already in use',
+			],
+		];
+		$this->assertEquals($expected, $address->getErrors('city'), print_r($address->getErrors('city'), true));
 	}
 
 }

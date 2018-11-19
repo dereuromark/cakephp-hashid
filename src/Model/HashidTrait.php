@@ -15,59 +15,65 @@ use Hashids\Hashids;
  *
  * @property array $_config
  */
-trait HashidTrait {
+trait HashidTrait
+{
 
-	/**
-	 * @param int $id
-	 * @return string
-	 */
-	public function encodeId($id) {
-		if ($id < 1 || !is_int($id)) {
-			throw new RecordNotFoundException('Invalid integer, the id must be >= 1.');
-		}
+    /**
+     * @param int $id
+     * @return string
+     */
+    public function encodeId($id)
+    {
+        if ($id < 1 || !is_int($id)) {
+            throw new RecordNotFoundException('Invalid integer, the id must be >= 1.');
+        }
 
-		$hashid = $this->_getHasher()->encode($id);
+        $hashid = $this->_getHasher()->encode($id);
 
-		if ($this->_config['debug']) {
-			$hashid .= '-' . $id;
-		}
-		return $hashid;
-	}
+        if ($this->_config['debug']) {
+            $hashid .= '-' . $id;
+        }
 
-	/**
-	 * @param string $hashid
-	 * @return int
-	 */
-	public function decodeHashid($hashid) {
-		if (is_array($hashid)) {
-			foreach ($hashid as $k => $v) {
-				$hashid[$k] = $this->decodeHashid($v);
-			}
-			return $hashid;
-		}
-		if ($this->_config['debug']) {
-			$hashid = substr($hashid, 0, strpos($hashid, '-'));
-		}
+        return $hashid;
+    }
 
-		$ids = $this->_getHasher()->decode($hashid);
-		return array_shift($ids);
-	}
+    /**
+     * @param string $hashid
+     * @return int
+     */
+    public function decodeHashid($hashid)
+    {
+        if (is_array($hashid)) {
+            foreach ($hashid as $k => $v) {
+                $hashid[$k] = $this->decodeHashid($v);
+            }
 
-	/**
-	 * @return \Hashids\Hashids
-	 */
-	protected function _getHasher() {
-		if (isset($this->_hashids)) {
-			return $this->_hashids;
-		}
+            return $hashid;
+        }
+        if ($this->_config['debug']) {
+            $hashid = substr($hashid, 0, strpos($hashid, '-'));
+        }
 
-		if ($this->_config['alphabet']) {
-			$this->_hashids = new Hashids($this->_config['salt'], $this->_config['minHashLength'], $this->_config['alphabet']);
-		} else {
-			$this->_hashids = new Hashids($this->_config['salt'], $this->_config['minHashLength']);
-		}
+        $ids = $this->_getHasher()->decode($hashid);
 
-		return $this->_hashids;
-	}
+        return array_shift($ids);
+    }
 
+    /**
+     * @return \Hashids\Hashids
+     */
+    protected function _getHasher()
+    {
+        if (isset($this->_hashids)) {
+            return $this->_hashids;
+        }
+
+        if ($this->_config['alphabet']) {
+            $this->_hashids = new Hashids($this->_config['salt'], $this->_config['minHashLength'], $this->_config['alphabet']);
+        } else {
+            $this->_hashids = new Hashids($this->_config['salt'], $this->_config['minHashLength']);
+        }
+
+        return $this->_hashids;
+    }
 }

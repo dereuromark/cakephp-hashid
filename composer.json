@@ -18,7 +18,7 @@
 		"hashids/hashids": "^1.0|^2.0"
 	},
 	"require-dev": {
-		"fig-r/psr2r-sniffer": "dev-master"
+		"cakephp/cakephp-codesniffer": "^3.0"
 	},
 	"autoload": {
 		"psr-4": {
@@ -37,7 +37,7 @@
 	"scripts": {
 		"test": "php phpunit.phar",
 		"test-setup": "[ ! -f phpunit.phar ] && wget https://phar.phpunit.de/phpunit-5.7.20.phar && mv phpunit-5.7.20.phar phpunit.phar || true",
-		"cs-check": "phpcs -p --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=/cakephp-hashid/vendor/,/tmp/,/logs/ --extensions=php ./",
-		"cs-fix": "phpcbf --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=/cakephp-hashid/vendor/,/tmp/,/logs/ --extensions=php ./"
+		"cs-check": "phpcs -p --standard=vendor/cakephp/cakephp-codesniffer/CakePHP/ --extensions=php ./src ./tests",
+		"cs-fix": "phpcbf -p --standard=vendor/cakephp/cakephp-codesniffer/CakePHP/ --extensions=php ./src ./tests"
 	}
 }

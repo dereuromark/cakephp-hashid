@@ -219,7 +219,7 @@ class HashidBehavior extends Behavior {
 	 *
 	 * @param \Cake\ORM\Query $query Query.
 	 * @param array $options Array of options as described above
-	 * @return \Cake\ORM\Query
+	 * @return \Cake\ORM\Query|\Cake\Datasource\EntityInterface
 	 */
 	public function findHashed(Query $query, array $options) {
 		$field = $this->_config['field'];

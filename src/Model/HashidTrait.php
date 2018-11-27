@@ -20,6 +20,7 @@ trait HashidTrait {
 	/**
 	 * @param int $id
 	 * @return string
+	 * @throws \Cake\Datasource\Exception\RecordNotFoundException
 	 */
 	public function encodeId($id) {
 		if ($id < 1 || !is_int($id)) {
@@ -35,8 +36,8 @@ trait HashidTrait {
 	}
 
 	/**
-	 * @param string $hashid
-	 * @return int
+	 * @param string|array $hashid
+	 * @return int|array
 	 */
 	public function decodeHashid($hashid) {
 		if (is_array($hashid)) {

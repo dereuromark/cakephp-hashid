@@ -35,7 +35,7 @@ trait HashidTrait {
 	}
 
 	/**
-	 * @param string $hashid
+	 * @param string|array $hashid
 	 * @return int
 	 */
 	public function decodeHashid($hashid) {

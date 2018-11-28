@@ -24,7 +24,7 @@ trait HashidTrait {
 	 */
 	public function encodeId($id) {
 		if ($id < 1 || !is_int($id)) {
-			throw new RecordNotFoundException('Invalid integer, the id must be >= 1.');
+			return false;
 		}
 
 		$hashid = $this->_getHasher()->encode($id);

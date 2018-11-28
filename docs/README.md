@@ -15,7 +15,7 @@ $user = $this->Users->newEntity($postData);
 $this->Users->save($user);
 ```
 
-The user entity now contains a `hashid` in the primary key field (usually `id`).
+The user entity now returns a `hashid` in the primary key field (usually `id`).
 The same would happen on each find().
 
 In our ctp file we can now keep all links as they were before:

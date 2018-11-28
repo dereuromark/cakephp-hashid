@@ -2,7 +2,6 @@
 
 namespace Hashid\Model;
 
-use Cake\Datasource\Exception\RecordNotFoundException;
 use Hashids\Hashids;
 
 /**
@@ -20,7 +19,6 @@ trait HashidTrait {
 	/**
 	 * @param int $id
 	 * @return string|null
-	 * @throws \Cake\Datasource\Exception\RecordNotFoundException
 	 */
 	public function encodeId($id) {
 		if ($id < 1 || !is_int($id)) {

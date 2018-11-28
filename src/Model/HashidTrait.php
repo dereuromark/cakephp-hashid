@@ -19,12 +19,13 @@ trait HashidTrait {
 
 	/**
 	 * @param int $id
-	 * @return string
+	 * @return string|null
 	 * @throws \Cake\Datasource\Exception\RecordNotFoundException
 	 */
 	public function encodeId($id) {
 		if ($id < 1 || !is_int($id)) {
-			return false;
+			// throw new RecordNotFoundException('Invalid integer, the id must be >= 1.');
+			return null;
 		}
 
 		$hashid = $this->_getHasher()->encode($id);

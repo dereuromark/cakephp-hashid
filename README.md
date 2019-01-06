@@ -2,7 +2,7 @@
 [![Build Status](https://api.travis-ci.org/dereuromark/cakephp-hashid.svg?branch=master)](https://travis-ci.org/dereuromark/cakephp-hashid)
 [![Coverage Status](https://codecov.io/gh/dereuromark/cakephp-hashid/branch/master/graph/badge.svg)](https://codecov.io/gh/dereuromark/cakephp-hashid)
 [![Latest Stable Version](https://poser.pugx.org/dereuromark/cakephp-hashid/v/stable.svg)](https://packagist.org/packages/dereuromark/cakephp-hashid)
-[![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.6-8892BF.svg)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.6-8892BF.svg)](https://php.net/)
 [![License](https://poser.pugx.org/dereuromark/cakephp-hashid/license)](https://packagist.org/packages/dereuromark/cakephp-hashid)
 [![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-hashid/d/total.svg)](https://packagist.org/packages/dereuromark/cakephp-hashid)
 [![Coding Standards](https://img.shields.io/badge/cs-PSR--2--R-yellow.svg)](https://github.com/php-fig-rectified/fig-rectified-standards)

@@ -2,7 +2,6 @@ language: php
 
 php:
   - 5.6
-  - 7.0
   - 7.3
 
 env:
@@ -10,6 +9,10 @@ env:
     - DB=mysql db_dsn='mysql://root@127.0.0.1/cakephp_test'
   global:
     - DEFAULT=1
+
+services:
+  - postgresql
+  - mysql
 
 matrix:
   include:
@@ -48,6 +51,10 @@ script:
   - if [[ $CODECOVERAGE == 1 ]]; then vendor/bin/phpunit --coverage-clover=clover.xml || true; fi
   - if [[ $CODECOVERAGE == 1 ]]; then wget -O codecov.sh https://codecov.io/bash; fi
   - if [[ $CODECOVERAGE == 1 ]]; then bash codecov.sh; fi
+
+cache:
+  directories:
+    - $HOME/.composer/cache
 
 notifications:
   email: false

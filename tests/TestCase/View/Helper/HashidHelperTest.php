@@ -7,9 +7,6 @@ use Cake\TestSuite\TestCase;
 use Cake\View\View;
 use Hashid\View\Helper\HashidHelper;
 
-/**
- *
- */
 class HashidHelperTest extends TestCase {
 
 	/**

@@ -3,9 +3,6 @@ namespace Hashid\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
 
-/**
- *
- */
 class TagsFixture extends TestFixture {
 
 	/**

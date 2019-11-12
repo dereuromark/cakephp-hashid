@@ -11,6 +11,7 @@ use Cake\ORM\Behavior;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Hashid\Model\HashidTrait;
+use RuntimeException;
 
 /**
  * @author Mark Scherer
@@ -33,7 +34,7 @@ class HashidBehavior extends Behavior {
 	protected $_table;
 
 	/**
-	 * @var array|string
+	 * @var string
 	 */
 	protected $_primaryKey;
 
@@ -69,7 +70,11 @@ class HashidBehavior extends Behavior {
 		parent::__construct($table, $config + $defaults);
 
 		$this->_table = $table;
-		$this->_primaryKey = $table->getPrimaryKey();
+		$primaryKey = $table->getPrimaryKey();
+		if (is_array($primaryKey)) {
+			throw new RuntimeException('Array primary keys are not supported yet for hash IDs.');
+		}
+		$this->_primaryKey = $primaryKey;
 
 		if ($this->_config['salt'] === null) {
 			$this->_config['salt'] = Configure::read('Security.salt') ? sha1(Configure::read('Security.salt')) : null;

@@ -29,11 +29,11 @@ class HashidHelperTest extends TestCase {
 
 		Configure::write('Hashid', [
 				'debug' => false,
-			],
+			]
 		);
 		Configure::write('Security', [
 				'salt' => '', // For testing
-			],
+			]
 		);
 
 		$this->request = new ServerRequest();

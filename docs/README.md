@@ -4,12 +4,12 @@
 If we want to just replace the numeric ids with hashids, we can use the default config.
 
 ```php
-// Adding the behavior in your Table initialize()
+// Adding the behavior in your Table::initialize()
 $this->addBehavior('Hashid.Hashid', ['recursive' => true, ...]);
 
 // Saving a new record
 $postData = [
-	'username' => 'Hallo'
+    'username' => 'Hallo',
 ];
 $user = $this->Users->newEntity($postData);
 $this->Users->save($user);
@@ -32,8 +32,8 @@ In our UsersController, we now check with this hashid instead behind the scenes:
  * @param string|null $id
  */
 public function view($id = null) {
-	$user = $this->Users->get($id);
-	...
+    $user = $this->Users->get($id);
+    ...
 }
 ```
 
@@ -94,10 +94,10 @@ because here no behavior callbacks are currently possible to intercept.
 
 My tip would be to dynamically wrap each of those method calls in the model layer,
 so if you at anytime remove or modify the behavior, the code will still work:
-```
+```php
 $id = $yourEntity->id;
 if ($this->hasBehavior('Hashid')) {
-	$id = $this->decodeHashid($id);
+    $id = $this->decodeHashid($id);
 }
 return $this->updateAll([...], ['id' => $id]);
 ```
@@ -110,7 +110,7 @@ use Hashid\Model\HashidTrait;
 
 class FooBar {
 
-	use HashidTrait;
+    use HashidTrait;
 
 }
 ```
@@ -125,7 +125,7 @@ They will be strings when you patch, so you need to use only scalar() validation
 You can provide global configs via Configure and your own `app.php`:
 ```php
 'Hashid' => [
-	'salt' => 'Your own salt string' // This is important
+    'salt' => 'Your own salt string' // This is important
 ],
 ```
 You can set `'salt'` to `true` - this way it uses your current Configure salt (not recommended).
@@ -147,4 +147,3 @@ traffic and SEO juice. You would want to store all old hashids together with the
 > Do you have a question or comment that involves "security" and "hashids" in the same sentence? Don't use Hashids.
 
 This sentence on the hashids documentation says it all: This is to cloak the IDs, but it is not a real secure encryption algorithm.
-

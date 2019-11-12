@@ -13,7 +13,7 @@ Exposes [hashids](https://github.com/ivanakimov/hashids.php) as drop-in replacem
 - cloak the actual numeric primary key behind the record (assuming you use a non public salt) for URLs, APIs and alike
 - build short unique IDs (Even PHP_INT_MAX `2.147.483.647` becomes `lXQAALg` for example, so `length <= 7` for the hashid)
 
-This branch is for use with **CakePHP 3.5+**.
+This branch is for use with **CakePHP 3.6+**. See [version map](https://github.com/dereuromark/cakephp-hashid/wiki#cakephp-version-map) for details.
 
 ### Why hashids?
 - They are super short, especially for the URL

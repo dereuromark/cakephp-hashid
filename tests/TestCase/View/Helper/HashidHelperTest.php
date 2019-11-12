@@ -29,14 +29,14 @@ class HashidHelperTest extends TestCase {
 
 		Configure::write('Hashid', [
 				'debug' => false,
-			]
+			],
 		);
 		Configure::write('Security', [
-				'salt' => '' // For testing
-			]
+				'salt' => '', // For testing
+			],
 		);
 
-		$this->request = $this->getMockBuilder(ServerRequest::class, [])->getMock();
+		$this->request = new ServerRequest();
 		$this->view = new View($this->request);
 		$this->Hashid = new HashidHelper($this->view);
 	}

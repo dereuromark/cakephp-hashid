@@ -51,7 +51,7 @@ class HashidBehavior extends Behavior {
 		'findFirst' => false, // Either true or 'first' or 'firstOrFail'
 		'implementedFinders' => [
 			'hashed' => 'findHashed',
-		]
+		],
 	];
 
 	/**

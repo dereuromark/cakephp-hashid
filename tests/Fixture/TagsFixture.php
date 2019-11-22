@@ -13,7 +13,7 @@ class TagsFixture extends TestFixture {
 	public $fields = [
 		'id' => ['type' => 'integer'],
 		'name' => ['type' => 'string', 'null' => false, 'default' => '', 'length' => 100, 'comment' => ''],
-		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
+		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
 	];
 
 	/**

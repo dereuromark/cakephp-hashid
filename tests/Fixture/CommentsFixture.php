@@ -17,7 +17,7 @@ class CommentsFixture extends TestFixture {
 		'id' => ['type' => 'integer'],
 		'address_id' => ['type' => 'integer', 'null' => true, 'default' => null],
 		'comment' => ['type' => 'string', 'null' => false, 'default' => '', 'length' => 100, 'comment' => ''],
-		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
+		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
 	];
 
 	/**

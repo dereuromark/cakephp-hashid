@@ -13,7 +13,7 @@ class HashidBehaviorTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'plugin.Hashid.Addresses', 'plugin.Hashid.Users', 'plugin.Hashid.Comments'
+		'plugin.Hashid.Addresses', 'plugin.Hashid.Users', 'plugin.Hashid.Comments',
 	];
 
 	/**
@@ -42,7 +42,7 @@ class HashidBehaviorTest extends TestCase {
 			]
 		);
 		Configure::write('Security', [
-				'salt' => '' // For testing
+				'salt' => '', // For testing
 			]
 		);
 
@@ -77,7 +77,7 @@ class HashidBehaviorTest extends TestCase {
 	 */
 	public function testSave() {
 		$data = [
-			'city' => 'Foo'
+			'city' => 'Foo',
 		];
 		$address = $this->Addresses->newEntity($data);
 		$res = $this->Addresses->save($address);
@@ -93,7 +93,7 @@ class HashidBehaviorTest extends TestCase {
 		$this->Addresses->behaviors()->Hashid->setConfig('field', 'hashid');
 
 		$data = [
-			'city' => 'Foo'
+			'city' => 'Foo',
 		];
 		$address = $this->Addresses->newEntity($data);
 		$res = $this->Addresses->save($address);
@@ -115,7 +115,7 @@ class HashidBehaviorTest extends TestCase {
 		$this->Addresses->setPrimaryKey('id');
 
 		$data = [
-			'city' => 'Foo'
+			'city' => 'Foo',
 		];
 		$address = $this->Addresses->newEntity($data);
 		$res = $this->Addresses->save($address);
@@ -136,7 +136,7 @@ class HashidBehaviorTest extends TestCase {
 		$this->Addresses->behaviors()->Hashid->setConfig('debug', true);
 
 		$data = [
-			'city' => 'Foo'
+			'city' => 'Foo',
 		];
 		$address = $this->Addresses->newEntity($data);
 		$res = $this->Addresses->save($address);
@@ -152,7 +152,7 @@ class HashidBehaviorTest extends TestCase {
 		$this->Addresses->behaviors()->Hashid->setConfig('debug', true);
 
 		$data = [
-			'city' => 'Foo'
+			'city' => 'Foo',
 		];
 		$address = $this->Addresses->newEntity($data);
 		$res = $this->Addresses->save($address);
@@ -186,7 +186,7 @@ class HashidBehaviorTest extends TestCase {
 		$this->Addresses->addBehavior('Hashid.Hashid', ['field' => 'hashid', 'debug' => null]);
 
 		$data = [
-			'city' => 'Foo'
+			'city' => 'Foo',
 		];
 		$address = $this->Addresses->newEntity($data);
 		$res = $this->Addresses->save($address);
@@ -206,7 +206,7 @@ class HashidBehaviorTest extends TestCase {
 		$this->Addresses->behaviors()->Hashid->setConfig('field', 'hash');
 
 		$data = [
-			'city' => 'Foo'
+			'city' => 'Foo',
 		];
 		$address = $this->Addresses->newEntity($data);
 		$res = $this->Addresses->save($address);
@@ -225,7 +225,7 @@ class HashidBehaviorTest extends TestCase {
 		$this->Addresses->behaviors()->Hashid->setConfig('field', 'hash');
 
 		$data = [
-			'city' => 'Foo'
+			'city' => 'Foo',
 		];
 		$address = $this->Addresses->newEntity($data);
 		$res = $this->Addresses->save($address);

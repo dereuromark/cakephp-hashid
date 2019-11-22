@@ -25,7 +25,7 @@ define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
 define('CAKE', CORE_PATH . 'src' . DS);
 
 Cake\Core\Configure::write('App', [
-	'namespace' => 'App'
+	'namespace' => 'App',
 ]);
 
 Cake\Core\Configure::write('debug', true);
@@ -33,22 +33,22 @@ Cake\Core\Configure::write('debug', true);
 $cache = [
 	'default' => [
 		'engine' => 'File',
-		'path' => CACHE
+		'path' => CACHE,
 	],
 	'_cake_core_' => [
 		'className' => 'File',
 		'prefix' => 'crud_myapp_cake_core_',
 		'path' => CACHE . 'persistent/',
 		'serialize' => true,
-		'duration' => '+10 seconds'
+		'duration' => '+10 seconds',
 	],
 	'_cake_model_' => [
 		'className' => 'File',
 		'prefix' => 'crud_my_app_cake_model_',
 		'path' => CACHE . 'models/',
 		'serialize' => 'File',
-		'duration' => '+10 seconds'
-	]
+		'duration' => '+10 seconds',
+	],
 ];
 
 Cake\Cache\Cache::setConfig($cache);

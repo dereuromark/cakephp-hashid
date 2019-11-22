@@ -13,7 +13,7 @@ class UsersFixture extends TestFixture {
 	public $fields = [
 		'id' => ['type' => 'integer'],
 		'username' => ['type' => 'string', 'null' => false, 'default' => '', 'length' => 10],
-		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
+		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
 	];
 
 	/**

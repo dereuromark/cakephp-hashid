@@ -1,4 +1,5 @@
 <?php
+
 namespace Hashid\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;

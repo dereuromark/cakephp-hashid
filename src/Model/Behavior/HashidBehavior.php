@@ -1,4 +1,5 @@
 <?php
+
 namespace Hashid\Model\Behavior;
 
 use ArrayObject;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Hashid\Test\Model\Behavior;
 
 use Cake\Core\Configure;

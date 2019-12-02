@@ -1,4 +1,5 @@
 <?php
+
 namespace Hashid\Test\TestCase\View\Helper;
 
 use Cake\Core\Configure;

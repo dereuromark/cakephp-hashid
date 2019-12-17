@@ -42,3 +42,7 @@ bin/cake plugin load Hashid
 
 ## Usage
 See [Documentation](docs).
+
+## Alternatives
+
+See [this nice article](https://tomharrisonjr.com/uuid-or-guid-as-primary-keys-be-careful-7b2aa3dcb439) on a different approach that would use both -allowing "int" for internal and "uuid" for external reference.

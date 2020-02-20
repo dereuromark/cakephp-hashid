@@ -257,7 +257,7 @@ class HashidBehavior extends Behavior {
 
 		if (!empty($options[static::HID])) {
 			$id = $this->decodeHashid($options[static::HID]);
-			$query->where([$idField => $id]);
+			$query->where([$this->getTable()->getAlias() . '.' . $idField => $id]);
 		}
 
 		$first = $this->_config['findFirst'] === true ? 'first' : $this->_config['findFirst'];

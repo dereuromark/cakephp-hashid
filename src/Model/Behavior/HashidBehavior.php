@@ -233,7 +233,7 @@ class HashidBehavior extends Behavior {
 			return $query;
 		}
 
-		$idField = $this->_primaryKey;
+		$idField = $this->getTable()->getAlias() . '.' . $this->_primaryKey;
 
 		$query->formatResults(function ($results) use ($field, $idField) {
 			$newResult = [];

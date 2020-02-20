@@ -233,7 +233,7 @@ class HashidBehavior extends Behavior {
 			return $query;
 		}
 
-		$idField = $this->getTable()->getAlias() . '.' . $this->_primaryKey;
+		$idField = $this->_primaryKey;
 
 		$query->formatResults(function ($results) use ($field, $idField) {
 			$newResult = [];
@@ -257,7 +257,7 @@ class HashidBehavior extends Behavior {
 
 		if (!empty($options[static::HID])) {
 			$id = $this->decodeHashid($options[static::HID]);
-			$query->where([$idField => $id]);
+			$query->where([$this->getTable()->getAlias() . '.' . $idField => $id]);
 		}
 
 		$first = $this->_config['findFirst'] === true ? 'first' : $this->_config['findFirst'];

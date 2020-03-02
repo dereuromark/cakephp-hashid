@@ -9,6 +9,10 @@
 
 Exposes [hashids](https://github.com/ivanakimov/hashids.php) as drop-in replacement for your numeric primary keys.
 
+
+**DEPRECATED** This plugin is deprecated in favor of the more robust and future proof solution through exposing a dedicated field. See **[Expose plugin](https://github.com/dereuromark/cakephp-expose)**.
+
+
 ## A CakePHP plugin to
 - cloak the actual numeric primary key behind the record (assuming you use a non public salt) for URLs, APIs and alike
 - build short unique IDs (Even PHP_INT_MAX `2.147.483.647` becomes `lXQAALg` for example, so `length <= 7` for the hashid)
@@ -27,6 +31,9 @@ This branch is for use with **CakePHP 3.6+**. See [version map](https://github.c
 at the same time (same datetime for created).
 - UUIDS are often used to just cloak the numeric primary keys visibility of how much gets inserted over time. But that is not what they should be used for.
 If you want to synch data across DBs, then they are useful. But they should not be abused for other things.
+
+**UPDATE** This is actually not true if you combine both AIID and UUIDs and use UUIDs only for external lookup but keep AIID for all internal joins and operations. As such the Expose plugin fully replaces this now.
+
 
 ## Demo
 See https://sandbox.dereuromark.de/sandbox/hashids

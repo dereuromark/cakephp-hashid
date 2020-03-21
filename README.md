@@ -36,7 +36,7 @@ If you want to synch data across DBs, then they are useful. But they should not 
 
 
 ## Demo
-See https://sandbox.dereuromark.de/sandbox/hashids
+See https://sandbox3.dereuromark.de/sandbox/hashids
 
 ## Setup
 ```

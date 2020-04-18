@@ -18,7 +18,7 @@
 		"hashids/hashids": "^1.0|^2.0|^3.0|^4.0"
 	},
 	"require-dev": {
-		"fig-r/psr2r-sniffer": "dev-master"
+		"fig-r/psr2r-sniffer": "^0.6"
 	},
 	"autoload": {
 		"psr-4": {

@@ -116,6 +116,19 @@ class FooBar {
 ```
 Now you got the `encodeId()` and `decodeHashid()` methods from above at your disposal.
 
+## Usage with RESTful routes
+
+If you have configured RESTFul routes in your `config/routes.php` you have to add a pattern for the routes to get parsed correctly, like: 
+
+```php
+#routes.php
+
+$this->ressources('Mymodel', [
+    'id' => RouteBuilder::ID . '|' . RouteBuilder::UUID . '|' . '[A-Za-z0-9\-\_]+'
+]);
+
+```
+
 ## Validation
 
 Make sure you do not use the default baked "integer" rule for your primary keys.
